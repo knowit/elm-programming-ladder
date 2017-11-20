@@ -2,3 +2,14 @@
 elm-stuff
 # elm-repl generated files
 repl-temp-*
+
+# Ignore different editor and npm things...
+node_modules
+*.log
+.out
+.test
+*.iml
+/.idea
+*.iml
+*.log.1
+.DS_Store
