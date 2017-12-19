@@ -1,4 +1,5 @@
 module Models exposing (Model, initialModel)
+import RemoteData exposing (RemoteData(..), WebData)
 
 type alias User = {
   name : String,
@@ -17,16 +18,23 @@ type alias Model = {
   user : User,
   tasks : List(Task),
   currentTask: Task,
-  users: List(User),
+  users: WebData (List User),
   authenticated: Bool
 }
 
-initialModel : Model
-initialModel = {
+type alias PlayerId = Int
+
+type Route
+    = UsersRoute
+    | UserRoute PlayerId
+    | NotFoundRoute
+
+initialModel : Route -> Model
+initialModel route = {
   points = 0,
   user = {name = "", email = "", solvedTasks = []},
   tasks = [],
   currentTask = { title = "", description = "", answer = ""},
-  users = [],
-  authenticated = False
-  }
+  users = Loading,
+  authenticated = False,
+  route = route}
