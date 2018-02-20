@@ -2,7 +2,7 @@
 elm-stuff
 # elm-repl generated files
 repl-temp-*
-
+main.js
 # Ignore different editor and npm things...
 node_modules
 *.log

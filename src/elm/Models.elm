@@ -1,12 +1,16 @@
-module Models exposing (Model, initialModel)
+module Models exposing (Model, User, Task, UserId, Route(..), initialModel)
+import RemoteData exposing (RemoteData(..), WebData)
 
 type alias User = {
+  id: UserId,
   name : String,
   email : String,
-  solvedTasks: List(Task)
+  level : Int,
+  solvedTasks: List Task
 }
 
 type alias Task = {
+  id: TypeId,
   title: String,
   description : String,
   answer : String
@@ -15,18 +19,28 @@ type alias Task = {
 type alias Model = {
   points : Int,
   user : User,
-  tasks : List(Task),
+  tasks : List Task,
   currentTask: Task,
-  users: List(User),
-  authenticated: Bool
+  users: WebData (List User),
+  authenticated: Bool,
+  route: Route
 }
 
-initialModel : Model
-initialModel = {
+type alias TypeId = Int
+
+type alias UserId = Int
+
+type Route
+    = UsersRoute
+    | UserRoute UserId
+    | NotFoundRoute
+
+initialModel : Route -> Model
+initialModel route = {
   points = 0,
-  user = {name = "", email = "", solvedTasks = []},
+  user = { id = 2, name = "", email = "", solvedTasks = [], level = 1},
   tasks = [],
-  currentTask = { title = "", description = "", answer = ""},
-  users = [],
-  authenticated = False
-  }
+  currentTask = { id = 0, title = "", description = "", answer = ""},
+  users = RemoteData.Loading,
+  authenticated = False,
+  route = route}
