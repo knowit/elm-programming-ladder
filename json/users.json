@@ -1,12 +1,42 @@
 [
   {
+    "id": 1,
     "name": "christian peter",
     "email": "chr@knowit.no",
-    "solvedTasks": ["1", "2", "3"]
+    "level": 2,
+    "solvedTasks": []
   },
   {
+    "id": 3,
+    "name": "christian peter",
+    "email": "chr@knowit.no",
+    "level": 2,
+    "solvedTasks": []
+  },
+  {
+    "id": 2,
     "name": "christian PLETTER",
     "email": "yoyoy@knowit.no",
-    "solvedTasks": ["1", "2", "3"]
+    "level": 3,
+    "solvedTasks": [
+      {
+        "id": 4,
+        "title": "Hvor er Norge?",
+        "description" : "En beskrivelse",
+        "answer" : "nord"
+      },
+      {
+        "id": 3,
+        "title": "Hvor er Norge?",
+        "description" : "En beskrivelse",
+        "answer" : "nord"
+      },
+      {
+        "id": 2,
+        "title": "Hvor er Norge?",
+        "description" : "En beskrivelse",
+        "answer" : "nord"
+      }
+    ]
   }
 ]

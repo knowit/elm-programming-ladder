@@ -1,8 +1,8 @@
-module Msgs exposing (..)
+module Msgs exposing (Msg(..))
 
 import Models exposing (User)
 import Navigation exposing (Location)
-import RemoteData.Http
+import RemoteData exposing (RemoteData(..), WebData)
 
 type Msg
     = OnFetchUsers (WebData (List User))

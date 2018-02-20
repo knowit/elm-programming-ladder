@@ -21,7 +21,7 @@ nav model =
 
 
 form : User -> Html Msg
-form player =
+form user =
     div [ class "m3" ]
         [ h1 [] [ text user.name ]
         , formLevel user
