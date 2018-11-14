@@ -1,24 +1,21 @@
 {
-  "name": "elm-programming-ladder",
-  "description": "Programming ladder",
-  "version": "0.8.6",
+  "name": "elm-ladder-fagprosjekt",
+  "description": "Elm Project used for programming ladder",
+  "version": "0.0.1",
   "license": "MIT",
+  "author": "Elena Andrés (elenaand), Petter Rostrup (petterrostrup)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/knowit/elm-programming-ladder"
+    "url": "https://github.com/elenaand/elm-ladder-fagprosjekt"
   },
   "scripts": {
-    "start": "webpack-dev-server --hot --inline",
-    "prebuild": "rimraf dist",
-    "build": "webpack",
-    "reinstall": "npm i rimraf && rimraf node_modules && npm uninstall -g elm && npm i -g elm && npm i && elm package install"
-  },
-  "devDependencies": {
-    "autoprefixer": "^6.7.7",
-    "elm": "^0.18.0",
-    "node-sass": "^4.5.1",
-    "rimraf": "^2.6.1",
+    "build": "elm make ./src/Main.elm --output dist/app.js",
+    "start": "elm-live ./src/Main.elm --open --output=app.js --pushstate"
   },
   "dependencies": {
+    "font-awesome": "4"
+  },
+  "devDependencies": {
+    "elm-live": "^3.0.0"
   }
 }

@@ -1,15 +1,9 @@
-# elm-package generated files
 elm-stuff
-# elm-repl generated files
-repl-temp-*
-main.js
-# Ignore different editor and npm things...
 node_modules
-*.log
-.out
-.test
-*.iml
-/.idea
-*.iml
-*.log.1
+elm.js
+npm-debug.log
 .DS_Store
+yarn-error.log
+dist
+/dist
+/index.html
