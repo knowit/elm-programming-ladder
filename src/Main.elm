@@ -93,7 +93,16 @@ view model =
                 ]
             ]
         , div [ class "content-main" ] [ text "content div" ]
-        , div [ class "footer" ] [ text "Yes, this is footer" ]
+        , div [ class "footer" ]
+            [ text "footer"
+            , img [ Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
+            , ul [ class "footer-social-list" ]
+                [ li [ class "footer-social" ] [ a [ href "https://www.facebook.com/knowitsolution" ] [ i [class "icon-social fab fa-facebook-square"] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://twitter.com/knowitnorge" ] [ i [class "icon-social fab fa-twitter-square"] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://knowitlabs.no/" ] [ i [class "icon-social fab fa-medium"] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://github.com/knowit/kodekalender" ] [ i [class "icon-social fab fa-github-square"] [] ] ]
+                ]
+            ]
         ]
     }
 
