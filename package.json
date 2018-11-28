@@ -9,8 +9,7 @@
     "url": "https://github.com/elenaand/elm-ladder-fagprosjekt"
   },
   "scripts": {
-    "build": "elm make ./src/Main.elm --output dist/app.js",
-    "start": "elm-live ./src/Main.elm --open --output=app.js --pushstate"
+    "start": "elm-live src/Main.elm --open -- --output=main.js"
   },
   "dependencies": {
     "font-awesome": "4"

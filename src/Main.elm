@@ -1,31 +1,112 @@
-module Main exposing (Msg(..), main, update, view)
+module Main exposing (Model, Msg(..), init, main, subscriptions, update, view, viewLink)
 
+import Asset
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Browser.Navigation as Nav
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Url
 
 
+
+-- MAIN
+
+
+main : Program () Model Msg
 main =
-    Browser.sandbox { init = 0, update = update, view = view }
+    Browser.application
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        , onUrlChange = UrlChanged
+        , onUrlRequest = LinkClicked
+        }
+
+
+
+-- MODEL
+
+
+type alias Model =
+    { key : Nav.Key
+    , url : Url.Url
+    }
+
+
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init flags url key =
+    ( Model key url, Cmd.none )
+
+
+
+-- UPDATE
 
 
 type Msg
-    = Increment
-    | Decrement
+    = LinkClicked Browser.UrlRequest
+    | UrlChanged Url.Url
 
 
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Increment ->
-            model + 1
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
 
-        Decrement ->
-            model - 1
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        UrlChanged url ->
+            ( { model | url = url }
+            , Cmd.none
+            )
 
 
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
+
+
+
+-- VIEW
+
+
+view : Model -> Browser.Document Msg
 view model =
-    div []
-        [ button [ onClick Decrement ] [ text "-" ]
-        , div [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+" ]
+    { title = "Kodekalender"
+    , body =
+        [ div [ class "navbar-top" ]
+            [ text "top navbar"
+            , ul [ class "nav-link-list" ]
+                [ li [ class "nav-link" ] [ a [ href "/home" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
+                , li [ class "nav-link" ] [ a [ href "/home" ] [ text "Luker" ] ]
+                , li [ class "nav-link" ] [ a [ href "/profile" ] [ text "Ledertavle" ] ]
+                , li [ class "nav-link" ] [ a [ href "/reviews/the-century-of-the-self" ] [ text "Om" ] ]
+                , li [ class "nav-link" ] [ a [ href "/reviews/public-opinion" ] [ text "Logg Inn" ] ]
+                ]
+            ]
+        , div [ class "content-main" ] [ text "content div" ]
+        , div [ class "footer" ]
+            [ text "footer"
+            , img [ Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
+            , ul [ class "footer-social-list" ]
+                [ li [ class "footer-social" ] [ a [ href "https://www.facebook.com/knowitsolution" ] [ i [class "icon-social fab fa-facebook-square"] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://twitter.com/knowitnorge" ] [ i [class "icon-social fab fa-twitter-square"] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://knowitlabs.no/" ] [ i [class "icon-social fab fa-medium"] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://github.com/knowit/kodekalender" ] [ i [class "icon-social fab fa-github-square"] [] ] ]
+                ]
+            ]
         ]
+    }
+
+
+viewLink : String -> Html msg
+viewLink path =
+    li [] [ a [ href path ] [ text path ] ]
