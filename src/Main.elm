@@ -1,5 +1,6 @@
 module Main exposing (Model, Msg(..), init, main, subscriptions, update, view, viewLink)
 
+import Asset
 import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
@@ -79,17 +80,20 @@ subscriptions _ =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "URL Interceptor"
+    { title = "Kodekalender"
     , body =
-        [ text "The current URL is: "
-        , b [] [ text (Url.toString model.url) ]
-        , ul []
-            [ viewLink "/home"
-            , viewLink "/profile"
-            , viewLink "/reviews/the-century-of-the-self"
-            , viewLink "/reviews/public-opinion"
-            , viewLink "/reviews/shah-of-shahs"
+        [ div [ class "navbar-top" ]
+            [ text "top navbar"
+            , ul [ class "nav-link-list" ]
+                [ li [ class "nav-link" ] [ a [ href "/home" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
+                , li [ class "nav-link" ] [ a [ href "/home" ] [ text "Luker" ] ]
+                , li [ class "nav-link" ] [ a [ href "/profile" ] [ text "Ledertavle" ] ]
+                , li [ class "nav-link" ] [ a [ href "/reviews/the-century-of-the-self" ] [ text "Om" ] ]
+                , li [ class "nav-link" ] [ a [ href "/reviews/public-opinion" ] [ text "Logg Inn" ] ]
+                ]
             ]
+        , div [ class "content-main" ] [ text "content div" ]
+        , div [ class "footer" ] [ text "Yes, this is footer" ]
         ]
     }
 
