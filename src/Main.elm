@@ -6,6 +6,7 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Page.Home as Home
 
 
 
@@ -92,6 +93,7 @@ view model =
                 ]
             ]
         , div [ class "content-main" ] [ text "Exchange this content with the specific model according to the navigated path" ]
+        , Home.main
         , div [ class "footer" ]
             [ div [ class "footer-content" ]
                 [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
