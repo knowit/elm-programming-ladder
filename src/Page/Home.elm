@@ -1,4 +1,4 @@
-module Main exposing (viewContent)
+module Page.Home exposing (viewHome)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

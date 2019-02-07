@@ -116,21 +116,21 @@ view model =
         viewPage = 
             case model.route of
                 Home ->
-                    Home.main
+                    Home.viewHome
                 About ->
-                    About.main 
+                    About.viewAbout 
                 NotFound ->
-                    About.main 
+                    About.viewAbout 
                 Challenge _ ->
-                    About.main 
+                    About.viewAbout 
                 Challenges ->
-                    About.main 
+                    About.viewAbout 
                 Login ->
-                    About.main 
+                    About.viewAbout 
                 Register ->
-                    About.main 
+                    About.viewAbout 
                 Stats ->
-                    About.main 
+                    About.viewAbout 
     in
     
     { title = "Kodekalender"
