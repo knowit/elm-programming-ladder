@@ -1,4 +1,4 @@
-module Main exposing (Model, Msg(..), init, main, subscriptions, update, view, viewLink)
+module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
 import Asset
 import Browser
@@ -8,6 +8,7 @@ import Html.Attributes exposing (..)
 import Page.About as About
 import Page.Home as Home
 import Url
+import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, string, top)
 
 
 
@@ -33,13 +34,42 @@ main =
 type alias Model =
     { key : Nav.Key
     , url : Url.Url
+    , route : Route
     }
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    ( Model key url, Cmd.none )
+    ( Model key url NotFound, Cmd.none )
 
+
+type Route
+    = About
+    | Challenge Int
+    | Challenges
+    | Home
+    | Login
+    | Register
+    | Stats
+    | NotFound
+
+
+routeParser : Parser (Route -> a) a
+routeParser =
+    oneOf
+        [ map About (s "about")
+        , map Challenge (s "challenge" </> int)
+        , map Challenges (s "challenges")
+        , map Home top
+        , map Login (s "login")
+        , map Register (s "register")
+        , map Login (s "login")
+        , map Stats (s "stats")
+        ]
+
+fromUrl : Url.Url -> Route
+fromUrl url =
+    Maybe.withDefault NotFound (Parser.parse routeParser url)
 
 
 -- UPDATE
@@ -62,7 +92,7 @@ update msg model =
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | url = url }
+            ( { model | route = fromUrl url }
             , Cmd.none
             )
 
@@ -82,6 +112,27 @@ subscriptions _ =
 
 view : Model -> Browser.Document Msg
 view model =
+    let
+        viewPage = 
+            case model.route of
+                Home ->
+                    Home.main
+                About ->
+                    About.main 
+                NotFound ->
+                    About.main 
+                Challenge _ ->
+                    About.main 
+                Challenges ->
+                    About.main 
+                Login ->
+                    About.main 
+                Register ->
+                    About.main 
+                Stats ->
+                    About.main 
+    in
+    
     { title = "Kodekalender"
     , body =
         [ div [ class "navbar-top" ]
@@ -93,7 +144,7 @@ view model =
                 , li [ class "nav-link-right" ] [ a [ href "/login" ] [ text "Logg Inn" ] ]
                 ]
             ]
-        , Home.main
+        , viewPage
         , div [ class "footer" ]
             [ div [ class "footer-content" ]
                 [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
@@ -107,8 +158,3 @@ view model =
             ]
         ]
     }
-
-
-viewLink : String -> Html msg
-viewLink path =
-    li [] [ a [ href path ] [ text path ] ]
