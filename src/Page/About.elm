@@ -1,10 +1,11 @@
-module Page.About exposing (main)
+module Page.About exposing (viewAbout)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
-main =
+viewAbout : Html msg
+viewAbout =
     div [ class "content-main" ]
         [ div [ class "content" ]
             [ h2 [] [ text "Om Kodekalenderen" ]
