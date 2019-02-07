@@ -3,7 +3,36 @@ module Page.Stats exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-main =
+
+-- MODEL
+
+type alias Model = 
+    { userGroups: List UserGroup }
+
+
+init: List UserGroup -> (Model, Cmd Msg)
+init groups = 
+    let 
+        model = 
+            { userGroups = groups }
+    in (model, Cmd.none)
+        
+
+-- UPDATE
+
+type Msg
+    = NoOp
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+-- VIEW
+
+view: Model -> Html Msg
+view { userGroups } = 
     div [ class "content-main" ]
         [ h1 [] [ text "Ledertavle" ]
         , table []
@@ -15,8 +44,8 @@ main =
                 ++ List.map viewUserGroup userGroups
             )
         ]
-        
-                
+
+
 viewUserGroup: UserGroup -> Html msg
 viewUserGroup userGroup =
     tbody [] 
@@ -35,15 +64,15 @@ viewUser user =
         ]
     
 
--- Users (Temp)
+-- USERS (Temp)
 
 type alias UserGroup = 
     { score: Int
     , users: List User
     }
 
-userGroups: List UserGroup
-userGroups = 
+tempGroups: List UserGroup
+tempGroups = 
     [ UserGroup 24 users1 
     , UserGroup 23 users2
     ]
