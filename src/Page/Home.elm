@@ -1,10 +1,17 @@
-module Page.Home exposing (main)
+module Page.Home exposing (viewHome)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
-main =
+
+-- MODEL
+-- UPDATE
+-- VIEW
+
+
+viewHome : Html msg
+viewHome =
     div [ class "content-main" ]
         [ h1 [] [ text "KODEKALENDER" ]
         , h3 [] [ text "by Knowit" ]
