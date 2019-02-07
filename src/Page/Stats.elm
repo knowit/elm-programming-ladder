@@ -37,11 +37,13 @@ viewStats =
         [ h1 [] [ text "Ledertavle" ]
         , table 
             [ style "width" "100%"
-            , style "border-collapse" "collapse"]
+            , style "border-collapse" "collapse"
+            , style "text-align" "left" 
+            ]
             ([ thead 
                 [ style "background" "rgb(0, 0, 0)"
                 , style "color" "rgb(250, 250, 250)"]
-                [ th [] [ text "Plass" ]
+                [ th [style "width" "10%"] [ text "Plass" ]
                 , th [] [ text "Bruker"]
                 ]
             ]
@@ -55,7 +57,9 @@ viewUserGroup userGroup =
     tbody [] 
         ([ tr 
             [ style "background" "rgb(0, 0, 0)"
-            , style "color" "rgb(250, 250, 250)"]
+            , style "color" "rgb(250, 250, 250)"
+            , style "text-align" "center"
+            ]
             [ th [ colspan 2 ] [text (String.fromInt userGroup.score ++ " luker")] ] 
             ]
         ++ List.map viewUser userGroup.users
