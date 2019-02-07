@@ -7,6 +7,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Page.About as About
 import Page.Home as Home
+import Page.Stats as Stats
 import Url
 import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, string, top)
 
@@ -64,7 +65,7 @@ routeParser =
         , map Login (s "login")
         , map Register (s "register")
         , map Login (s "login")
-        , map Stats (s "stats")
+        , map Stats (s "leaderboard")
         ]
 
 fromUrl : Url.Url -> Route
@@ -130,7 +131,7 @@ view model =
                 Register ->
                     About.viewAbout 
                 Stats ->
-                    About.viewAbout 
+                    Stats.viewStats  
     in
     
     { title = "Kodekalender"

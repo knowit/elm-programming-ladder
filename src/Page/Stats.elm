@@ -1,10 +1,10 @@
-module Page.Stats exposing (..)
+module Page.Stats exposing (viewStats)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
--- MODEL
+-- MODEL (not used)
 
 type alias Model = 
     { userGroups: List UserGroup }
@@ -18,7 +18,7 @@ init groups =
     in (model, Cmd.none)
         
 
--- UPDATE
+-- UPDATE (not used)
 
 type Msg
     = NoOp
@@ -31,17 +31,21 @@ update msg model =
 
 -- VIEW
 
-view: Model -> Html Msg
-view { userGroups } = 
+viewStats: Html msg
+viewStats = 
     div [ class "content-main" ]
         [ h1 [] [ text "Ledertavle" ]
-        , table []
-            ([ thead []
+        , table 
+            [ style "width" "100%"
+            , style "border-collapse" "collapse"]
+            ([ thead 
+                [ style "background" "rgb(0, 0, 0)"
+                , style "color" "rgb(250, 250, 250)"]
                 [ th [] [ text "Plass" ]
                 , th [] [ text "Bruker"]
                 ]
             ]
-                ++ List.map viewUserGroup userGroups
+                ++ List.map viewUserGroup tempGroups
             )
         ]
 
@@ -49,8 +53,10 @@ view { userGroups } =
 viewUserGroup: UserGroup -> Html msg
 viewUserGroup userGroup =
     tbody [] 
-        ([ tr []
-            [ th [] [text (String.fromInt userGroup.score ++ " luker")] ] 
+        ([ tr 
+            [ style "background" "rgb(0, 0, 0)"
+            , style "color" "rgb(250, 250, 250)"]
+            [ th [ colspan 2 ] [text (String.fromInt userGroup.score ++ " luker")] ] 
             ]
         ++ List.map viewUser userGroup.users
         )
@@ -59,7 +65,7 @@ viewUserGroup userGroup =
 viewUser: User -> Html msg
 viewUser user = 
     tr []
-        [ th [] [ text (String.fromInt user.score) ]
+        [ th [] [ text (String.fromInt user.score ++ ".") ]
         , th [] [ text user.name ]
         ]
     
