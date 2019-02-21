@@ -36,14 +36,10 @@ viewStats =
     div [ class "content-main" ]
         [ h1 [] [ text "Ledertavle" ]
         , table 
-            [ style "width" "100%"
-            , style "border-collapse" "collapse"
-            , style "text-align" "left" 
-            ]
+            [ class "stats-table" ]
             ([ thead 
-                [ style "background" "rgb(0, 0, 0)"
-                , style "color" "rgb(250, 250, 250)"]
-                [ th [style "width" "10%"] [ text "Plass" ]
+                [ class "stats-table-head" ]
+                [ th [ class "stats-table-position-column" ] [ text "Plass" ]
                 , th [] [ text "Bruker"]
                 ]
             ]
@@ -56,10 +52,7 @@ viewUserGroup: UserGroup -> Html msg
 viewUserGroup userGroup =
     tbody [] 
         ([ tr 
-            [ style "background" "rgb(0, 0, 0)"
-            , style "color" "rgb(250, 250, 250)"
-            , style "text-align" "center"
-            ]
+            [ class "stats-table-group-head" ]
             [ th [ colspan 2 ] [text (String.fromInt userGroup.score ++ " luker")] ] 
             ]
         ++ List.map viewUser userGroup.users
