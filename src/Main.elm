@@ -3,13 +3,14 @@ module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 import Asset
 import Browser
 import Browser.Navigation as Nav
+import Debug
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Page.About as About
 import Page.Home as Home
 import Page.Stats as Stats
 import Url
-import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, string, top)
+import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, top)
 
 
 
@@ -40,37 +41,43 @@ type alias Model =
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init flags url key =
-    ( Model key url NotFound, Cmd.none )
+init _ url key =
+    ( { key = key
+      , url = url
+      , route = urlToRoute url
+      }
+    , Cmd.none
+    )
 
 
 type Route
-    = About
+    = Home
+    | About
     | Challenge Int
     | Challenges
-    | Home
     | Login
     | Register
     | Stats
     | NotFound
 
 
-routeParser : Parser (Route -> a) a
-routeParser =
+parser : Parser (Route -> a) a
+parser =
     oneOf
-        [ map About (s "about")
+        [ map Home top
+        , map About (s "about")
         , map Challenge (s "challenge" </> int)
         , map Challenges (s "challenges")
-        , map Home top
         , map Login (s "login")
         , map Register (s "register")
-        , map Login (s "login")
         , map Stats (s "leaderboard")
         ]
 
-fromUrl : Url.Url -> Route
-fromUrl url =
-    Maybe.withDefault NotFound (Parser.parse routeParser url)
+
+urlToRoute : Url.Url -> Route
+urlToRoute url =
+    Maybe.withDefault NotFound (Parser.parse parser url)
+
 
 
 -- UPDATE
@@ -93,7 +100,10 @@ update msg model =
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | route = fromUrl url }
+            ( { model
+                | url = url
+                , route = urlToRoute url
+              }
             , Cmd.none
             )
 
@@ -114,31 +124,37 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model =
     let
-        viewPage = 
+        viewPage =
             case model.route of
                 Home ->
                     Home.viewHome
+
                 About ->
-                    About.viewAbout 
+                    About.viewAbout
+
                 NotFound ->
-                    About.viewAbout 
+                    Home.viewHome
+
                 Challenge _ ->
-                    About.viewAbout 
+                    About.viewAbout
+
                 Challenges ->
-                    About.viewAbout 
+                    About.viewAbout
+
                 Login ->
-                    About.viewAbout 
+                    About.viewAbout
+
                 Register ->
-                    About.viewAbout 
+                    About.viewAbout
+
                 Stats ->
                     Stats.viewStats  
     in
-    
     { title = "Kodekalender"
     , body =
         [ div [ class "navbar-top" ]
             [ ul [ class "nav-link-list" ]
-                [ li [ class "nav-link-image" ] [ a [ href "/home" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
+                [ li [ class "nav-link-image" ] [ a [ href "/" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
                 , li [ class "nav-link" ] [ a [ href "/challenges" ] [ text "Luker" ] ]
                 , li [ class "nav-link" ] [ a [ href "/leaderboard" ] [ text "Ledertavle" ] ]
                 , li [ class "nav-link" ] [ a [ href "/about" ] [ text "Om" ] ]
