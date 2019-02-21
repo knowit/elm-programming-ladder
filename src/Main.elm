@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Page.About as About
 import Page.Home as Home
+import Page.Stats as Stats
 import Url
 import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, top)
 
@@ -69,7 +70,7 @@ parser =
         , map Challenges (s "challenges")
         , map Login (s "login")
         , map Register (s "register")
-        , map Stats (s "stats")
+        , map Stats (s "leaderboard")
         ]
 
 
@@ -147,7 +148,7 @@ view model =
                     About.viewAbout
 
                 Stats ->
-                    About.viewAbout
+                    Stats.viewStats  
     in
     { title = "Kodekalender"
     , body =

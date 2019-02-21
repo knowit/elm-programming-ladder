@@ -106,3 +106,24 @@ body {
 .footer-social a i {
   font-size: 3em;
 }
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.stats-table-head {
+  background: rgb(0, 0, 0);
+  color: rgb(250, 250, 250);
+}
+
+.stats-table-position-column {
+  width: 15%;
+}
+
+.stats-table-group-head {
+  background: rgb(0, 0, 0);
+  color: rgb(250, 250, 250);
+  text-align: center;
+}
