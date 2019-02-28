@@ -2,9 +2,10 @@
 # yarn lockfile v1
 
 
-"@dillonkearns/elm-graphql@^3.2.0":
+"@dillonkearns/elm-graphql@4.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@dillonkearns/elm-graphql/-/elm-graphql-3.2.0.tgz#550a17a022dc1e5a85935d81897f04a6ea89f42c"
+  integrity sha512-0AAcDELY1aEY3IJZI0ZbWFuEZNCr32ioF2ht6Bf4J4xR7CnFz91/AeGdVAXLoQjwhrbtNsiQ4B8CrRFxDClN9A==
   dependencies:
     encoding "^0.1.12"
     glob "^7.1.2"
