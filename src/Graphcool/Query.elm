@@ -283,8 +283,8 @@ loggedInUser object_ =
     Object.selectionForCompositeField "loggedInUser" [] object_ (identity >> Decode.nullable)
 
 
-user : SelectionSet decodesTo Graphcool.Object.User -> SelectionSet (Maybe decodesTo) RootQuery
-user object_ =
+user_ : SelectionSet decodesTo Graphcool.Object.User -> SelectionSet (Maybe decodesTo) RootQuery
+user_ object_ =
     Object.selectionForCompositeField "user" [] object_ (identity >> Decode.nullable)
 
 
