@@ -2,8 +2,51 @@ module Page.Stats exposing (viewStats)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Graphql.Operation exposing (RootQuery)
+import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
+import RemoteData exposing(RemoteData)
+import Graphcool.Object.User as User
+import Graphcool.Query as Query
 
+type alias Response = 
+    List User
 
+type alias User = 
+    { email : String }
+
+query : SelectionSet Response RootQuery
+query =
+    Query.allUsers identity 
+        (SelectionSet.succeed User
+            |> with User.email
+        )
+
+makeRequest : Cmd Msg
+makeRequest = 
+    query
+        |> Grapql.Http.queryRequest "https://api.graph.cool/simple/v1/knowit-programming-ladder"
+        |> Graphql.Http.send (RemoteData.fromResult >> GotResponse)
+
+type Msg   
+    = GotResponse Model
+
+type alias Model =
+    RemoteData (Graphql.Http.Error Response) Response
+
+type alias Flags = 
+    ()
+
+init : Flags -> (Model, Cmd Msg)
+init _ =
+    (RemoteData.Loading, makeRequest)
+
+update : Msg -> Mode -> (Model, Cmd Msg)
+update msg model =
+    case msg of 
+        GotResponse response ->
+            ( response, Cmd.none)
+
+{-
 -- MODEL (not used)
 
 type alias Model = 
@@ -28,7 +71,7 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
-
+-}
 -- VIEW
 
 viewStats: Html msg
@@ -68,7 +111,7 @@ viewUser user =
     
 
 -- USERS (Temp)
-
+{-
 type alias UserGroup = 
     { score: Int
     , users: List User
@@ -101,3 +144,4 @@ users2 =
     , User "User 8" 2
     , User "User 9" 2
     ]
+-}

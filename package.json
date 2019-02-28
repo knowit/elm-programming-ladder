@@ -13,6 +13,7 @@
     "api": "elm-graphql https://api.graph.cool/simple/v1/knowit-programming-ladder --base Graphcool"
   },
   "dependencies": {
+    "elm-format": "^0.8.1",
     "font-awesome": "4"
   },
   "devDependencies": {
