@@ -37,18 +37,13 @@ type alias Model =
     { key : Nav.Key
     , url : Url.Url
     , route : Route
+    , page : Page
     }
 
-
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init _ url key =
-    ( { key = key
-      , url = url
-      , route = urlToRoute url
-      }
-    , Cmd.none
-    )
-
+type Page
+    = PageStats Stats.Model
+    | PageHome
+    | PageAbout
 
 type Route
     = Home
@@ -59,6 +54,21 @@ type Route
     | Register
     | Stats
     | NotFound
+
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init _ url key =
+    let
+        model = 
+            { key = key
+            , url = url
+            , route = urlToRoute url
+            , page = PageHome
+            }
+    in
+    ( model, Cmd.none)
+        |> loadCurrentPage
+
+
 
 
 parser : Parser (Route -> a) a
@@ -78,6 +88,33 @@ urlToRoute : Url.Url -> Route
 urlToRoute url =
     Maybe.withDefault NotFound (Parser.parse parser url)
 
+loadCurrentPage : ( Model, Cmd Msg) -> ( Model, Cmd Msg )
+loadCurrentPage ( model, cmd ) =
+    let 
+        ( page, newCmd ) =
+            case model.route of 
+                Home ->
+                    ( PageHome, Cmd.none )
+                About ->
+                    ( PageAbout, Cmd.none )
+                Challenge _ ->
+                    ( PageAbout, Cmd.none )
+                Challenges ->
+                    ( PageAbout, Cmd.none )
+                Login ->
+                    ( PageAbout, Cmd.none )
+                Register ->
+                    ( PageAbout, Cmd.none )
+                NotFound ->
+                    ( PageHome, Cmd.none )
+                Stats ->
+                    let
+                        ( pageModel, pageCmd ) = 
+                            Stats.init
+                    in
+                    (PageStats pageModel, Cmd.map StatsMsg pageCmd )
+    in
+    ( { model | page = page }, Cmd.batch [ cmd, newCmd ] )
 
 
 -- UPDATE
@@ -86,12 +123,13 @@ urlToRoute url =
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
+    | StatsMsg Stats.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        LinkClicked urlRequest ->
+    case ( msg, model.page ) of
+        ( LinkClicked urlRequest, _ ) ->
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url) )
@@ -99,13 +137,23 @@ update msg model =
                 Browser.External href ->
                     ( model, Nav.load href )
 
-        UrlChanged url ->
+        ( UrlChanged url, _ ) ->
             ( { model
                 | url = url
                 , route = urlToRoute url
               }
             , Cmd.none
             )
+        ( StatsMsg subMsg, PageStats pageModel ) ->
+            let
+                ( newPageModel, newCmd ) =
+                    Stats.update subMsg pageModel
+            in
+            ( {model | page = PageStats newPageModel }
+            , Cmd.map StatsMsg newCmd
+            )
+        ( StatsMsg subMsg, _ ) ->
+            ( model, Cmd.none )
 
 
 
@@ -124,31 +172,15 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model =
     let
-        viewPage =
-            case model.route of
-                Home ->
+        viewPage = 
+            case model.page of 
+                PageHome ->
                     Home.viewHome
-
-                About ->
+                PageAbout ->
                     About.viewAbout
-
-                NotFound ->
-                    Home.viewHome
-
-                Challenge _ ->
-                    About.viewAbout
-
-                Challenges ->
-                    About.viewAbout
-
-                Login ->
-                    About.viewAbout
-
-                Register ->
-                    About.viewAbout
-
-                Stats ->
-                    Stats.viewStats  
+                PageStats pageModel ->
+                    Stats.viewStats pageModel
+                        |> Html.map StatsMsg
     in
     { title = "Kodekalender"
     , body =
@@ -174,4 +206,4 @@ view model =
                 ]
             ]
         ]
-    }
+    } 

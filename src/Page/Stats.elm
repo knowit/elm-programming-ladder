@@ -1,4 +1,4 @@
-module Page.Stats exposing (viewStats)
+module Page.Stats exposing (viewStats, Model, Msg, init, update)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -32,8 +32,8 @@ type alias Model =
 type alias Flags = 
     ()
 
-init : Flags -> (Model, Cmd Msg)
-init _ =
+init : (Model, Cmd Msg)
+init =
     (RemoteData.Loading, makeRequest)
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -69,9 +69,25 @@ update msg model =
             ( model, Cmd.none )
 -} 
 -- VIEW
-
-viewStats: Html msg
-viewStats = 
+{-
+makeRequestAndGetResponse : Model
+makeRequestAndGetResponse =
+    let
+        msg = makeRequest              
+    in
+        case msg of 
+            GotResponse response ->
+                response
+-}
+viewStats : Model -> Html msg
+viewStats model = 
+    {- let
+        model = 
+            makeRequestAndGetResponse
+    in
+    div [ class "content-main" ]
+        [ model ]
+    -}
     div [ class "content-main" ]
         [ h1 [] [ text "Ledertavle" ]
         , table 
