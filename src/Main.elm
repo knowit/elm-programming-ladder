@@ -40,10 +40,12 @@ type alias Model =
     , page : Page
     }
 
+
 type Page
     = PageStats Stats.Model
     | PageHome
     | PageAbout
+
 
 type Route
     = Home
@@ -55,20 +57,19 @@ type Route
     | Stats
     | NotFound
 
+
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     let
-        model = 
+        model =
             { key = key
             , url = url
             , route = urlToRoute url
             , page = PageHome
             }
     in
-    ( model, Cmd.none)
+    ( model, Cmd.none )
         |> loadCurrentPage
-
-
 
 
 parser : Parser (Route -> a) a
@@ -88,33 +89,42 @@ urlToRoute : Url.Url -> Route
 urlToRoute url =
     Maybe.withDefault NotFound (Parser.parse parser url)
 
-loadCurrentPage : ( Model, Cmd Msg) -> ( Model, Cmd Msg )
+
+loadCurrentPage : ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
 loadCurrentPage ( model, cmd ) =
-    let 
+    let
         ( page, newCmd ) =
-            case model.route of 
+            case model.route of
                 Home ->
                     ( PageHome, Cmd.none )
+
                 About ->
                     ( PageAbout, Cmd.none )
+
                 Challenge _ ->
                     ( PageAbout, Cmd.none )
+
                 Challenges ->
                     ( PageAbout, Cmd.none )
+
                 Login ->
                     ( PageAbout, Cmd.none )
+
                 Register ->
                     ( PageAbout, Cmd.none )
+
                 NotFound ->
                     ( PageHome, Cmd.none )
+
                 Stats ->
                     let
-                        ( pageModel, pageCmd ) = 
+                        ( pageModel, pageCmd ) =
                             Stats.init
                     in
-                    (PageStats pageModel, Cmd.map StatsMsg pageCmd )
+                    ( PageStats pageModel, Cmd.map StatsMsg pageCmd )
     in
     ( { model | page = page }, Cmd.batch [ cmd, newCmd ] )
+
 
 
 -- UPDATE
@@ -144,14 +154,17 @@ update msg model =
               }
             , Cmd.none
             )
+                |> loadCurrentPage
+
         ( StatsMsg subMsg, PageStats pageModel ) ->
             let
                 ( newPageModel, newCmd ) =
                     Stats.update subMsg pageModel
             in
-            ( {model | page = PageStats newPageModel }
+            ( { model | page = PageStats newPageModel }
             , Cmd.map StatsMsg newCmd
             )
+
         ( StatsMsg subMsg, _ ) ->
             ( model, Cmd.none )
 
@@ -172,12 +185,14 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model =
     let
-        viewPage = 
-            case model.page of 
+        viewPage =
+            case model.page of
                 PageHome ->
                     Home.viewHome
+
                 PageAbout ->
                     About.viewAbout
+
                 PageStats pageModel ->
                     Stats.viewStats pageModel
                         |> Html.map StatsMsg
@@ -206,4 +221,4 @@ view model =
                 ]
             ]
         ]
-    } 
+    }
