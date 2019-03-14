@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Graphql.Operation exposing (RootQuery)
 import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
 import Graphql.Http
+import Graphql.Document as Document
 import RemoteData exposing(RemoteData)
 import Graphcool.Object.User
 import Graphcool.Query as Query
@@ -42,64 +43,19 @@ update msg model =
         GotResponse response ->
             ( response, Cmd.none)
 
-{-
--- MODEL (not used)
-
-type alias Model = 
-    { userGroups: List UserGroup }
-
-
-init: List UserGroup -> (Model, Cmd Msg)
-init groups = 
-    let 
-        model = 
-            { userGroups = groups }
-    in (model, Cmd.none)
-        
-
--- UPDATE (not used)
-
-type Msg
-    = NoOp
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
--} 
 -- VIEW
-{-
-makeRequestAndGetResponse : Model
-makeRequestAndGetResponse =
-    let
-        msg = makeRequest              
-    in
-        case msg of 
-            GotResponse response ->
-                response
--}
+
 viewStats : Model -> Html msg
 viewStats model = 
-    {- let
-        model = 
-            makeRequestAndGetResponse
-    in
     div [ class "content-main" ]
-        [ model ]
-    -}
-    div [ class "content-main" ]
-        [ h1 [] [ text "Ledertavle" ]
-        , table 
-            [ class "stats-table" ]
-            ([ thead 
-                [ class "stats-table-head" ]
-                [ th [ class "stats-table-position-column" ] [ text "Plass" ]
-                , th [] [ text "Bruker"]
-                ]
+        [ div []
+            [ h1 [] [ text "Generated Query" ]
+            , pre [] [ text (Document.serializeQuery query) ]
             ]
-                ++ List.map viewUserGroup tempGroups
-            )
+        , div []
+            [ h1 [] [ text "Response" ]
+            , text (Debug.toString model)
+            ]
         ]
     
 

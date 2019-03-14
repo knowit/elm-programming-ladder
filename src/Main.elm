@@ -64,8 +64,13 @@ init _ url key =
         model =
             { key = key
             , url = url
-            , route = urlToRoute url
-            , page = PageHome
+            , route = Stats
+            , page = 
+                let
+                    ( pageModel, pageCmd ) = 
+                        Stats.init
+                in
+                    PageStats pageModel
             }
     in
     ( model, Cmd.none )
