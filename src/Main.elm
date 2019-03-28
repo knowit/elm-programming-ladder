@@ -9,6 +9,7 @@ import Html.Attributes exposing (..)
 import Page.About as About
 import Page.Home as Home
 import Page.Stats as Stats
+import Page.Challenges as Challenges
 import Url
 import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, top)
 
@@ -45,6 +46,7 @@ type Page
     = PageStats Stats.Model
     | PageHome
     | PageAbout
+    | PageChallenges Challenges.Model
 
 
 type Route
@@ -64,13 +66,13 @@ init _ url key =
         model =
             { key = key
             , url = url
-            , route = Stats
+            , route = Challenges
             , page = 
                 let
                     ( pageModel, pageCmd ) = 
-                        Stats.init
+                        Challenges.init
                 in
-                    PageStats pageModel
+                    PageChallenges pageModel
             }
     in
     ( model, Cmd.none )
@@ -110,8 +112,11 @@ loadCurrentPage ( model, cmd ) =
                     ( PageAbout, Cmd.none )
 
                 Challenges ->
-                    ( PageAbout, Cmd.none )
-
+                    let 
+                        ( pageModel, pageCmd ) =
+                            Challenges.init
+                    in
+                    ( PageChallenges pageModel, Cmd.map ChallengesMsg pageCmd )
                 Login ->
                     ( PageAbout, Cmd.none )
 
@@ -139,6 +144,7 @@ type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | StatsMsg Stats.Msg
+    | ChallengesMsg Challenges.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -173,6 +179,19 @@ update msg model =
         ( StatsMsg subMsg, _ ) ->
             ( model, Cmd.none )
 
+        ( ChallengesMsg subMsg, PageChallenges pageModel ) ->
+            let
+                ( newPageModel, newCmd ) =
+                    Challenges.update subMsg pageModel
+            in
+            ( { model | page = PageChallenges newPageModel }
+            , Cmd.map ChallengesMsg newCmd
+            )
+
+        ( ChallengesMsg subMsg, _ ) ->
+            ( model, Cmd.none )
+        
+
 
 
 -- SUBSCRIPTIONS
@@ -201,6 +220,10 @@ view model =
                 PageStats pageModel ->
                     Stats.viewStats pageModel
                         |> Html.map StatsMsg
+                
+                PageChallenges pageModel ->
+                    Challenges.viewChallenges pageModel
+                        |> Html.map ChallengesMsg
     in
     { title = "Kodekalender"
     , body =
