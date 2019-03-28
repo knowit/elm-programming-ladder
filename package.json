@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "elm-live src/Main.elm --open -- --output=main.js",
-    "api": "elm-graphql https://api.graph.cool/simple/v1/knowit-programming-ladder --base Graphcool"
+    "api": "elm-graphql https://api.graph.cool/simple/v1/cjtsh660h0fxg0189of111ui9 --base Graphcool"
   },
   "dependencies": {
     "elm-format": "^0.8.1",

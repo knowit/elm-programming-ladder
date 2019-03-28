@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Graphcool.Object.UserPreviousValues exposing (auth0UserId, createdAt, email, id, role, updatedAt)
+module Graphcool.Object.UserPreviousValues exposing (auth0UserId, createdAt, id, nickname, picture, role, updatedAt)
 
 import Graphcool.Enum.UserRole
 import Graphcool.InputObject
@@ -20,9 +20,9 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-auth0UserId : SelectionSet (Maybe String) Graphcool.Object.UserPreviousValues
+auth0UserId : SelectionSet String Graphcool.Object.UserPreviousValues
 auth0UserId =
-    Object.selectionForField "(Maybe String)" "auth0UserId" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "String" "auth0UserId" [] Decode.string
 
 
 createdAt : SelectionSet Graphcool.ScalarCodecs.DateTime Graphcool.Object.UserPreviousValues
@@ -30,14 +30,19 @@ createdAt =
     Object.selectionForField "ScalarCodecs.DateTime" "createdAt" [] (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapCodecs |> .codecDateTime |> .decoder)
 
 
-email : SelectionSet (Maybe String) Graphcool.Object.UserPreviousValues
-email =
-    Object.selectionForField "(Maybe String)" "email" [] (Decode.string |> Decode.nullable)
-
-
 id : SelectionSet Graphcool.ScalarCodecs.Id Graphcool.Object.UserPreviousValues
 id =
     Object.selectionForField "ScalarCodecs.Id" "id" [] (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapCodecs |> .codecId |> .decoder)
+
+
+nickname : SelectionSet String Graphcool.Object.UserPreviousValues
+nickname =
+    Object.selectionForField "String" "nickname" [] Decode.string
+
+
+picture : SelectionSet String Graphcool.Object.UserPreviousValues
+picture =
+    Object.selectionForField "String" "picture" [] Decode.string
 
 
 role : SelectionSet Graphcool.Enum.UserRole.UserRole Graphcool.Object.UserPreviousValues

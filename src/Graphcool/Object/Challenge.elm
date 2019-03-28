@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Graphcool.Object.Challenge exposing (SolutionsMetaOptionalArguments, SolutionsOptionalArguments, activeFrom, activeTo, answer, createdAt, discussionUrl, id, markdown, markup, notes, published, solutions, solutionsMeta_, title, updatedAt)
+module Graphcool.Object.Challenge exposing (SolutionsMetaOptionalArguments, SolutionsOptionalArguments, activeFrom, activeTo, answer, createdAt, discussionUrl, id, markdown, markup, published, solutions, solutionsMeta_, title, updatedAt)
 
 import Graphcool.Enum.SolutionOrderBy
 import Graphcool.InputObject
@@ -58,11 +58,6 @@ markdown =
 markup : SelectionSet String Graphcool.Object.Challenge
 markup =
     Object.selectionForField "String" "markup" [] Decode.string
-
-
-notes : SelectionSet (Maybe String) Graphcool.Object.Challenge
-notes =
-    Object.selectionForField "(Maybe String)" "notes" [] (Decode.string |> Decode.nullable)
 
 
 published : SelectionSet Bool Graphcool.Object.Challenge

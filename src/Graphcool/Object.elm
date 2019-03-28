@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Graphcool.Object exposing (AddToChallengeSolutionsPayload(..), AddToUserSolutionsPayload(..), AuthenticateUserPayload(..), Challenge(..), ChallengePreviousValues(..), ChallengeSubscriptionPayload(..), CheckAnswerPayload(..), GetAnswerPayload(..), InvokeFunctionPayload(..), LoggedInUserPayload(..), QueryMeta_(..), Solution(..), SolutionPreviousValues(..), SolutionSubscriptionPayload(..), User(..), UserPreviousValues(..), UserSubscriptionPayload(..))
+module Graphcool.Object exposing (AddToChallengeSolutionsPayload(..), AddToUserSolutionsPayload(..), Challenge(..), ChallengePreviousValues(..), ChallengeSubscriptionPayload(..), InvokeFunctionPayload(..), QueryMeta_(..), Solution(..), SolutionPreviousValues(..), SolutionSubscriptionPayload(..), User(..), UserPreviousValues(..), UserSubscriptionPayload(..))
 
 
 type AddToChallengeSolutionsPayload
@@ -11,10 +11,6 @@ type AddToChallengeSolutionsPayload
 
 type AddToUserSolutionsPayload
     = AddToUserSolutionsPayload
-
-
-type AuthenticateUserPayload
-    = AuthenticateUserPayload
 
 
 type Challenge
@@ -29,20 +25,8 @@ type ChallengeSubscriptionPayload
     = ChallengeSubscriptionPayload
 
 
-type CheckAnswerPayload
-    = CheckAnswerPayload
-
-
-type GetAnswerPayload
-    = GetAnswerPayload
-
-
 type InvokeFunctionPayload
     = InvokeFunctionPayload
-
-
-type LoggedInUserPayload
-    = LoggedInUserPayload
 
 
 type QueryMeta_

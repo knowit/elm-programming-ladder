@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Graphcool.Object.ChallengePreviousValues exposing (activeFrom, activeTo, answer, createdAt, discussionUrl, id, markdown, markup, notes, published, title, updatedAt)
+module Graphcool.Object.ChallengePreviousValues exposing (activeFrom, activeTo, answer, createdAt, discussionUrl, id, markdown, markup, published, title, updatedAt)
 
 import Graphcool.InputObject
 import Graphcool.Interface
@@ -57,11 +57,6 @@ markdown =
 markup : SelectionSet String Graphcool.Object.ChallengePreviousValues
 markup =
     Object.selectionForField "String" "markup" [] Decode.string
-
-
-notes : SelectionSet (Maybe String) Graphcool.Object.ChallengePreviousValues
-notes =
-    Object.selectionForField "(Maybe String)" "notes" [] (Decode.string |> Decode.nullable)
 
 
 published : SelectionSet Bool Graphcool.Object.ChallengePreviousValues

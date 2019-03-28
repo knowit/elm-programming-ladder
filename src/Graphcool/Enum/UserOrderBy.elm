@@ -12,10 +12,12 @@ type UserOrderBy
     | Auth0UserId_DESC
     | CreatedAt_ASC
     | CreatedAt_DESC
-    | Email_ASC
-    | Email_DESC
     | Id_ASC
     | Id_DESC
+    | Nickname_ASC
+    | Nickname_DESC
+    | Picture_ASC
+    | Picture_DESC
     | Role_ASC
     | Role_DESC
     | UpdatedAt_ASC
@@ -24,7 +26,7 @@ type UserOrderBy
 
 list : List UserOrderBy
 list =
-    [ Auth0UserId_ASC, Auth0UserId_DESC, CreatedAt_ASC, CreatedAt_DESC, Email_ASC, Email_DESC, Id_ASC, Id_DESC, Role_ASC, Role_DESC, UpdatedAt_ASC, UpdatedAt_DESC ]
+    [ Auth0UserId_ASC, Auth0UserId_DESC, CreatedAt_ASC, CreatedAt_DESC, Id_ASC, Id_DESC, Nickname_ASC, Nickname_DESC, Picture_ASC, Picture_DESC, Role_ASC, Role_DESC, UpdatedAt_ASC, UpdatedAt_DESC ]
 
 
 decoder : Decoder UserOrderBy
@@ -45,17 +47,23 @@ decoder =
                     "createdAt_DESC" ->
                         Decode.succeed CreatedAt_DESC
 
-                    "email_ASC" ->
-                        Decode.succeed Email_ASC
-
-                    "email_DESC" ->
-                        Decode.succeed Email_DESC
-
                     "id_ASC" ->
                         Decode.succeed Id_ASC
 
                     "id_DESC" ->
                         Decode.succeed Id_DESC
+
+                    "nickname_ASC" ->
+                        Decode.succeed Nickname_ASC
+
+                    "nickname_DESC" ->
+                        Decode.succeed Nickname_DESC
+
+                    "picture_ASC" ->
+                        Decode.succeed Picture_ASC
+
+                    "picture_DESC" ->
+                        Decode.succeed Picture_DESC
 
                     "role_ASC" ->
                         Decode.succeed Role_ASC
@@ -91,17 +99,23 @@ toString enum =
         CreatedAt_DESC ->
             "createdAt_DESC"
 
-        Email_ASC ->
-            "email_ASC"
-
-        Email_DESC ->
-            "email_DESC"
-
         Id_ASC ->
             "id_ASC"
 
         Id_DESC ->
             "id_DESC"
+
+        Nickname_ASC ->
+            "nickname_ASC"
+
+        Nickname_DESC ->
+            "nickname_DESC"
+
+        Picture_ASC ->
+            "picture_ASC"
+
+        Picture_DESC ->
+            "picture_DESC"
 
         Role_ASC ->
             "role_ASC"

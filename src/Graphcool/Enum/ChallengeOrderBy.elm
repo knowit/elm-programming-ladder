@@ -24,8 +24,6 @@ type ChallengeOrderBy
     | Markdown_DESC
     | Markup_ASC
     | Markup_DESC
-    | Notes_ASC
-    | Notes_DESC
     | Published_ASC
     | Published_DESC
     | Title_ASC
@@ -36,7 +34,7 @@ type ChallengeOrderBy
 
 list : List ChallengeOrderBy
 list =
-    [ ActiveFrom_ASC, ActiveFrom_DESC, ActiveTo_ASC, ActiveTo_DESC, Answer_ASC, Answer_DESC, CreatedAt_ASC, CreatedAt_DESC, DiscussionUrl_ASC, DiscussionUrl_DESC, Id_ASC, Id_DESC, Markdown_ASC, Markdown_DESC, Markup_ASC, Markup_DESC, Notes_ASC, Notes_DESC, Published_ASC, Published_DESC, Title_ASC, Title_DESC, UpdatedAt_ASC, UpdatedAt_DESC ]
+    [ ActiveFrom_ASC, ActiveFrom_DESC, ActiveTo_ASC, ActiveTo_DESC, Answer_ASC, Answer_DESC, CreatedAt_ASC, CreatedAt_DESC, DiscussionUrl_ASC, DiscussionUrl_DESC, Id_ASC, Id_DESC, Markdown_ASC, Markdown_DESC, Markup_ASC, Markup_DESC, Published_ASC, Published_DESC, Title_ASC, Title_DESC, UpdatedAt_ASC, UpdatedAt_DESC ]
 
 
 decoder : Decoder ChallengeOrderBy
@@ -92,12 +90,6 @@ decoder =
 
                     "markup_DESC" ->
                         Decode.succeed Markup_DESC
-
-                    "notes_ASC" ->
-                        Decode.succeed Notes_ASC
-
-                    "notes_DESC" ->
-                        Decode.succeed Notes_DESC
 
                     "published_ASC" ->
                         Decode.succeed Published_ASC
@@ -174,12 +166,6 @@ toString enum =
 
         Markup_DESC ->
             "markup_DESC"
-
-        Notes_ASC ->
-            "notes_ASC"
-
-        Notes_DESC ->
-            "notes_DESC"
 
         Published_ASC ->
             "published_ASC"

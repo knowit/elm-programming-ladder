@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Graphcool.Query exposing (AllChallengesMetaOptionalArguments, AllChallengesOptionalArguments, AllSolutionsMetaOptionalArguments, AllSolutionsOptionalArguments, AllUsersMetaOptionalArguments, AllUsersOptionalArguments, ChallengeOptionalArguments, GetAnswerRequiredArguments, NodeRequiredArguments, SolutionOptionalArguments, UserOptionalArguments, allChallenges, allChallengesMeta_, allSolutions, allSolutionsMeta_, allUsers, allUsersMeta_, challenge, getAnswer, loggedInUser, node, solution, user)
+module Graphcool.Query exposing (AllChallengesMetaOptionalArguments, AllChallengesOptionalArguments, AllSolutionsMetaOptionalArguments, AllSolutionsOptionalArguments, AllUsersMetaOptionalArguments, AllUsersOptionalArguments, ChallengeOptionalArguments, NodeRequiredArguments, SolutionOptionalArguments, UserOptionalArguments, allChallenges, allChallengesMeta_, allSolutions, allSolutionsMeta_, allUsers, allUsersMeta_, challenge, node, solution, user)
 
 import Graphcool.Enum.ChallengeOrderBy
 import Graphcool.Enum.SolutionOrderBy
@@ -263,24 +263,6 @@ user fillInOptionals object_ =
                 |> List.filterMap identity
     in
     Object.selectionForCompositeField "User" optionalArgs object_ (identity >> Decode.nullable)
-
-
-type alias GetAnswerRequiredArguments =
-    { challengeId : Graphcool.ScalarCodecs.Id }
-
-
-{-| getAnswer
--}
-getAnswer : GetAnswerRequiredArguments -> SelectionSet decodesTo Graphcool.Object.GetAnswerPayload -> SelectionSet decodesTo RootQuery
-getAnswer requiredArgs object_ =
-    Object.selectionForCompositeField "getAnswer" [ Argument.required "challengeId" requiredArgs.challengeId (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) ] object_ identity
-
-
-{-| loggedInUser
--}
-loggedInUser : SelectionSet decodesTo Graphcool.Object.LoggedInUserPayload -> SelectionSet (Maybe decodesTo) RootQuery
-loggedInUser object_ =
-    Object.selectionForCompositeField "loggedInUser" [] object_ (identity >> Decode.nullable)
 
 
 user_ : SelectionSet decodesTo Graphcool.Object.User -> SelectionSet (Maybe decodesTo) RootQuery

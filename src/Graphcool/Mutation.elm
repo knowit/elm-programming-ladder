@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Graphcool.Mutation exposing (AddToChallengeSolutionsRequiredArguments, AddToUserSolutionsRequiredArguments, AuthenticateUserRequiredArguments, CheckAnswerRequiredArguments, CreateChallengeOptionalArguments, CreateChallengeRequiredArguments, CreateSolutionOptionalArguments, CreateSolutionRequiredArguments, CreateUserOptionalArguments, DeleteChallengeRequiredArguments, DeleteSolutionRequiredArguments, DeleteUserRequiredArguments, InvokeFunctionRequiredArguments, UpdateChallengeOptionalArguments, UpdateChallengeRequiredArguments, UpdateOrCreateChallengeRequiredArguments, UpdateOrCreateSolutionRequiredArguments, UpdateOrCreateUserRequiredArguments, UpdateSolutionOptionalArguments, UpdateSolutionRequiredArguments, UpdateUserOptionalArguments, UpdateUserRequiredArguments, addToChallengeSolutions, addToUserSolutions, authenticateUser, checkAnswer, createChallenge, createSolution, createUser, deleteChallenge, deleteSolution, deleteUser, invokeFunction, updateChallenge, updateOrCreateChallenge, updateOrCreateSolution, updateOrCreateUser, updateSolution, updateUser)
+module Graphcool.Mutation exposing (AddToChallengeSolutionsRequiredArguments, AddToUserSolutionsRequiredArguments, CreateChallengeOptionalArguments, CreateChallengeRequiredArguments, CreateSolutionOptionalArguments, CreateSolutionRequiredArguments, CreateUserOptionalArguments, CreateUserRequiredArguments, DeleteChallengeRequiredArguments, DeleteSolutionRequiredArguments, DeleteUserRequiredArguments, InvokeFunctionRequiredArguments, UpdateChallengeOptionalArguments, UpdateChallengeRequiredArguments, UpdateOrCreateChallengeRequiredArguments, UpdateOrCreateSolutionRequiredArguments, UpdateOrCreateUserRequiredArguments, UpdateSolutionOptionalArguments, UpdateSolutionRequiredArguments, UpdateUserOptionalArguments, UpdateUserRequiredArguments, addToChallengeSolutions, addToUserSolutions, createChallenge, createSolution, createUser, deleteChallenge, deleteSolution, deleteUser, invokeFunction, updateChallenge, updateOrCreateChallenge, updateOrCreateSolution, updateOrCreateUser, updateSolution, updateUser)
 
 import Graphcool.Enum.UserRole
 import Graphcool.InputObject
@@ -24,7 +24,6 @@ type alias CreateChallengeOptionalArguments =
     { activeFrom : OptionalArgument Graphcool.ScalarCodecs.DateTime
     , activeTo : OptionalArgument Graphcool.ScalarCodecs.DateTime
     , discussionUrl : OptionalArgument String
-    , notes : OptionalArgument String
     , published : OptionalArgument Bool
     , solutionsIds : OptionalArgument (List Graphcool.ScalarCodecs.Id)
     , solutions : OptionalArgument (List Graphcool.InputObject.ChallengesolutionsSolution)
@@ -43,10 +42,10 @@ createChallenge : (CreateChallengeOptionalArguments -> CreateChallengeOptionalAr
 createChallenge fillInOptionals requiredArgs object_ =
     let
         filledInOptionals =
-            fillInOptionals { activeFrom = Absent, activeTo = Absent, discussionUrl = Absent, notes = Absent, published = Absent, solutionsIds = Absent, solutions = Absent }
+            fillInOptionals { activeFrom = Absent, activeTo = Absent, discussionUrl = Absent, published = Absent, solutionsIds = Absent, solutions = Absent }
 
         optionalArgs =
-            [ Argument.optional "activeFrom" filledInOptionals.activeFrom (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "activeTo" filledInOptionals.activeTo (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "discussionUrl" filledInOptionals.discussionUrl Encode.string, Argument.optional "notes" filledInOptionals.notes Encode.string, Argument.optional "published" filledInOptionals.published Encode.bool, Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeChallengesolutionsSolution |> Encode.list) ]
+            [ Argument.optional "activeFrom" filledInOptionals.activeFrom (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "activeTo" filledInOptionals.activeTo (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "discussionUrl" filledInOptionals.discussionUrl Encode.string, Argument.optional "published" filledInOptionals.published Encode.bool, Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeChallengesolutionsSolution |> Encode.list) ]
                 |> List.filterMap identity
     in
     Object.selectionForCompositeField "createChallenge" (optionalArgs ++ [ Argument.required "answer" requiredArgs.answer Encode.string, Argument.required "markdown" requiredArgs.markdown Encode.string, Argument.required "markup" requiredArgs.markup Encode.string, Argument.required "title" requiredArgs.title Encode.string ]) object_ (identity >> Decode.nullable)
@@ -85,7 +84,6 @@ type alias UpdateChallengeOptionalArguments =
     , discussionUrl : OptionalArgument String
     , markdown : OptionalArgument String
     , markup : OptionalArgument String
-    , notes : OptionalArgument String
     , published : OptionalArgument Bool
     , title : OptionalArgument String
     , solutionsIds : OptionalArgument (List Graphcool.ScalarCodecs.Id)
@@ -101,10 +99,10 @@ updateChallenge : (UpdateChallengeOptionalArguments -> UpdateChallengeOptionalAr
 updateChallenge fillInOptionals requiredArgs object_ =
     let
         filledInOptionals =
-            fillInOptionals { activeFrom = Absent, activeTo = Absent, answer = Absent, discussionUrl = Absent, markdown = Absent, markup = Absent, notes = Absent, published = Absent, title = Absent, solutionsIds = Absent, solutions = Absent }
+            fillInOptionals { activeFrom = Absent, activeTo = Absent, answer = Absent, discussionUrl = Absent, markdown = Absent, markup = Absent, published = Absent, title = Absent, solutionsIds = Absent, solutions = Absent }
 
         optionalArgs =
-            [ Argument.optional "activeFrom" filledInOptionals.activeFrom (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "activeTo" filledInOptionals.activeTo (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "answer" filledInOptionals.answer Encode.string, Argument.optional "discussionUrl" filledInOptionals.discussionUrl Encode.string, Argument.optional "markdown" filledInOptionals.markdown Encode.string, Argument.optional "markup" filledInOptionals.markup Encode.string, Argument.optional "notes" filledInOptionals.notes Encode.string, Argument.optional "published" filledInOptionals.published Encode.bool, Argument.optional "title" filledInOptionals.title Encode.string, Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeChallengesolutionsSolution |> Encode.list) ]
+            [ Argument.optional "activeFrom" filledInOptionals.activeFrom (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "activeTo" filledInOptionals.activeTo (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecDateTime), Argument.optional "answer" filledInOptionals.answer Encode.string, Argument.optional "discussionUrl" filledInOptionals.discussionUrl Encode.string, Argument.optional "markdown" filledInOptionals.markdown Encode.string, Argument.optional "markup" filledInOptionals.markup Encode.string, Argument.optional "published" filledInOptionals.published Encode.bool, Argument.optional "title" filledInOptionals.title Encode.string, Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeChallengesolutionsSolution |> Encode.list) ]
                 |> List.filterMap identity
     in
     Object.selectionForCompositeField "updateChallenge" (optionalArgs ++ [ Argument.required "id" requiredArgs.id (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) ]) object_ (identity >> Decode.nullable)
@@ -139,7 +137,8 @@ updateSolution fillInOptionals requiredArgs object_ =
 
 type alias UpdateUserOptionalArguments =
     { auth0UserId : OptionalArgument String
-    , email : OptionalArgument String
+    , nickname : OptionalArgument String
+    , picture : OptionalArgument String
     , role : OptionalArgument Graphcool.Enum.UserRole.UserRole
     , solutionsIds : OptionalArgument (List Graphcool.ScalarCodecs.Id)
     , solutions : OptionalArgument (List Graphcool.InputObject.UsersolutionsSolution)
@@ -154,10 +153,10 @@ updateUser : (UpdateUserOptionalArguments -> UpdateUserOptionalArguments) -> Upd
 updateUser fillInOptionals requiredArgs object_ =
     let
         filledInOptionals =
-            fillInOptionals { auth0UserId = Absent, email = Absent, role = Absent, solutionsIds = Absent, solutions = Absent }
+            fillInOptionals { auth0UserId = Absent, nickname = Absent, picture = Absent, role = Absent, solutionsIds = Absent, solutions = Absent }
 
         optionalArgs =
-            [ Argument.optional "auth0UserId" filledInOptionals.auth0UserId Encode.string, Argument.optional "email" filledInOptionals.email Encode.string, Argument.optional "role" filledInOptionals.role (Encode.enum Graphcool.Enum.UserRole.toString), Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeUsersolutionsSolution |> Encode.list) ]
+            [ Argument.optional "auth0UserId" filledInOptionals.auth0UserId Encode.string, Argument.optional "nickname" filledInOptionals.nickname Encode.string, Argument.optional "picture" filledInOptionals.picture Encode.string, Argument.optional "role" filledInOptionals.role (Encode.enum Graphcool.Enum.UserRole.toString), Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeUsersolutionsSolution |> Encode.list) ]
                 |> List.filterMap identity
     in
     Object.selectionForCompositeField "updateUser" (optionalArgs ++ [ Argument.required "id" requiredArgs.id (Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) ]) object_ (identity >> Decode.nullable)
@@ -246,49 +245,30 @@ addToUserSolutions requiredArgs object_ =
 
 
 type alias CreateUserOptionalArguments =
-    { auth0UserId : OptionalArgument String
-    , email : OptionalArgument String
-    , role : OptionalArgument Graphcool.Enum.UserRole.UserRole
+    { role : OptionalArgument Graphcool.Enum.UserRole.UserRole
     , solutionsIds : OptionalArgument (List Graphcool.ScalarCodecs.Id)
     , solutions : OptionalArgument (List Graphcool.InputObject.UsersolutionsSolution)
     }
 
 
-createUser : (CreateUserOptionalArguments -> CreateUserOptionalArguments) -> SelectionSet decodesTo Graphcool.Object.User -> SelectionSet (Maybe decodesTo) RootMutation
-createUser fillInOptionals object_ =
-    let
-        filledInOptionals =
-            fillInOptionals { auth0UserId = Absent, email = Absent, role = Absent, solutionsIds = Absent, solutions = Absent }
-
-        optionalArgs =
-            [ Argument.optional "auth0UserId" filledInOptionals.auth0UserId Encode.string, Argument.optional "email" filledInOptionals.email Encode.string, Argument.optional "role" filledInOptionals.role (Encode.enum Graphcool.Enum.UserRole.toString), Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeUsersolutionsSolution |> Encode.list) ]
-                |> List.filterMap identity
-    in
-    Object.selectionForCompositeField "createUser" optionalArgs object_ (identity >> Decode.nullable)
-
-
-type alias AuthenticateUserRequiredArguments =
-    { accessToken : String }
-
-
-{-| authenticate
--}
-authenticateUser : AuthenticateUserRequiredArguments -> SelectionSet decodesTo Graphcool.Object.AuthenticateUserPayload -> SelectionSet decodesTo RootMutation
-authenticateUser requiredArgs object_ =
-    Object.selectionForCompositeField "authenticateUser" [ Argument.required "accessToken" requiredArgs.accessToken Encode.string ] object_ identity
-
-
-type alias CheckAnswerRequiredArguments =
-    { challengeId : String
-    , answer : String
+type alias CreateUserRequiredArguments =
+    { auth0UserId : String
+    , nickname : String
+    , picture : String
     }
 
 
-{-| checkAnswer
--}
-checkAnswer : CheckAnswerRequiredArguments -> SelectionSet decodesTo Graphcool.Object.CheckAnswerPayload -> SelectionSet decodesTo RootMutation
-checkAnswer requiredArgs object_ =
-    Object.selectionForCompositeField "checkAnswer" [ Argument.required "challengeId" requiredArgs.challengeId Encode.string, Argument.required "answer" requiredArgs.answer Encode.string ] object_ identity
+createUser : (CreateUserOptionalArguments -> CreateUserOptionalArguments) -> CreateUserRequiredArguments -> SelectionSet decodesTo Graphcool.Object.User -> SelectionSet (Maybe decodesTo) RootMutation
+createUser fillInOptionals requiredArgs object_ =
+    let
+        filledInOptionals =
+            fillInOptionals { role = Absent, solutionsIds = Absent, solutions = Absent }
+
+        optionalArgs =
+            [ Argument.optional "role" filledInOptionals.role (Encode.enum Graphcool.Enum.UserRole.toString), Argument.optional "solutionsIds" filledInOptionals.solutionsIds ((Graphcool.ScalarCodecs.codecs |> Graphcool.Scalar.unwrapEncoder .codecId) |> Encode.list), Argument.optional "solutions" filledInOptionals.solutions (Graphcool.InputObject.encodeUsersolutionsSolution |> Encode.list) ]
+                |> List.filterMap identity
+    in
+    Object.selectionForCompositeField "createUser" (optionalArgs ++ [ Argument.required "auth0UserId" requiredArgs.auth0UserId Encode.string, Argument.required "nickname" requiredArgs.nickname Encode.string, Argument.required "picture" requiredArgs.picture Encode.string ]) object_ (identity >> Decode.nullable)
 
 
 type alias InvokeFunctionRequiredArguments =
