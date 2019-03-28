@@ -6,17 +6,38 @@ import Graphql.Operation exposing (RootQuery)
 import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
 import Graphql.Http
 import Graphql.Document as Document
+import Graphql.OptionalArgument exposing(OptionalArgument(..))
 import RemoteData exposing(RemoteData)
-import Graphcool.Object.User
+import Graphcool.Interface
 import Graphcool.Query as Query
 import Graphcool.ScalarCodecs
+import Graphcool.Object
+import Graphcool.Object.User as User
+import Graphcool.Scalar
+import Graphcool.InputObject
+
+-- REQUEST
 
 type alias Response = 
-    Maybe (Maybe String)
+    List UserLookup
 
 query : SelectionSet Response RootQuery
 query =
-    Query.user identity Graphcool.Object.User.email
+    Query.allUsers (\optionals -> { optionals | first = Present 100 }) user
+    -- Change to {optionals | filter = Present ...(idk) } user
+
+
+
+type alias UserLookup = 
+    { email : Maybe String 
+    , createdAt: Graphcool.Scalar.DateTime
+    }
+
+user : SelectionSet UserLookup Graphcool.Object.User
+user = 
+    SelectionSet.map2 UserLookup
+        User.email
+        User.createdAt
 
 makeRequest : Cmd Msg
 makeRequest = 
@@ -24,8 +45,7 @@ makeRequest =
         |> Graphql.Http.queryRequest "https://api.graph.cool/simple/v1/knowit-programming-ladder"
         |> Graphql.Http.send (RemoteData.fromResult >> GotResponse)
 
-type Msg   
-    = GotResponse Model
+-- MODEL
 
 type alias Model =
     RemoteData (Graphql.Http.Error Response) Response
@@ -36,6 +56,11 @@ type alias Flags =
 init : (Model, Cmd Msg)
 init =
     (RemoteData.Loading, makeRequest)
+
+-- UPDATE
+
+type Msg   
+    = GotResponse Model
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -59,7 +84,7 @@ viewStats model =
         ]
     
 
-
+{-
 viewUserGroup: UserGroup -> Html msg
 viewUserGroup userGroup =
     tbody [] 
@@ -77,8 +102,9 @@ viewUser user =
         [ th [] [ text (String.fromInt user.score ++ ".") ]
         , th [] [ text user.name ]
         ]
-   
+-}
 
+{-
 -- USERS (Temp)
 
 type alias UserGroup = 
@@ -113,3 +139,4 @@ users2 =
     , User "User 8" 2
     , User "User 9" 2
     ]
+-}
