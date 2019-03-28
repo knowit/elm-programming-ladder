@@ -148,30 +148,38 @@ view model =
                     About.viewAbout
 
                 Stats ->
-                    Stats.viewStats  
+                    Stats.viewStats
     in
     { title = "Kodekalender"
     , body =
-        [ div [ class "navbar-top" ]
-            [ ul [ class "nav-link-list" ]
-                [ li [ class "nav-link-image" ] [ a [ href "/" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
-                , li [ class "nav-link" ] [ a [ href "/challenges" ] [ text "Luker" ] ]
-                , li [ class "nav-link" ] [ a [ href "/leaderboard" ] [ text "Ledertavle" ] ]
-                , li [ class "nav-link" ] [ a [ href "/about" ] [ text "Om" ] ]
-                , li [ class "nav-link-right" ] [ a [ href "/login" ] [ text "Logg Inn" ] ]
-                ]
-            ]
+        [ header
         , viewPage
-        , div [ class "footer" ]
-            [ div [ class "footer-content" ]
-                [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
-                , ul [ class "footer-social-list" ]
-                    [ li [ class "footer-social" ] [ a [ href "https://www.facebook.com/knowitsolution" ] [ i [ class "icon-social fab fa-facebook circle" ] [] ] ]
-                    , li [ class "footer-social" ] [ a [ href "https://twitter.com/knowitnorge" ] [ i [ class "icon-social fab fa-twitter circle" ] [] ] ]
-                    , li [ class "footer-social" ] [ a [ href "https://knowitlabs.no/" ] [ i [ class "icon-social fab fa-medium circle" ] [] ] ]
-                    , li [ class "footer-social" ] [ a [ href "https://github.com/knowit/kodekalender" ] [ i [ class "icon-social fab fa-github circle" ] [] ] ]
-                    ]
+        , footer
+        ]
+    }
+
+
+header : Html msg
+header =
+    div [ class "navbar-top" ]
+        [ div [ class "navbar-link-image" ] [ a [ href "/home" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
+        , div [ class "navbar-tab nav-link" ] [ a [ href "/challenges" ] [ text "Luker" ] ]
+        , div [ class "navbar-tab nav-link" ] [ a [ href "/leaderboard" ] [ text "Ledertavle" ] ]
+        , div [ class "navbar-tab nav-link" ] [ a [ href "/about" ] [ text "Om" ] ]
+        , div [ class "navbar-tab nav-link-right" ] [ a [ href "/login" ] [ text "Logg Inn" ] ]
+        ]
+
+
+footer : Html msg
+footer =
+    div [ class "footer" ]
+        [ div [ class "footer-content" ]
+            [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
+            , ul [ class "footer-social-list" ]
+                [ li [ class "footer-social" ] [ a [ href "https://www.facebook.com/knowitsolution" ] [ i [ class "icon-social fab fa-facebook circle" ] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://twitter.com/knowitnorge" ] [ i [ class "icon-social fab fa-twitter circle" ] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://knowitlabs.no/" ] [ i [ class "icon-social fab fa-medium circle" ] [] ] ]
+                , li [ class "footer-social" ] [ a [ href "https://github.com/knowit/kodekalender" ] [ i [ class "icon-social fab fa-github circle" ] [] ] ]
                 ]
             ]
         ]
-    }
