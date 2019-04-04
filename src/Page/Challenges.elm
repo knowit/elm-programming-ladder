@@ -89,13 +89,29 @@ update msg model =
 
 viewChallenges : Model -> Html msg
 viewChallenges model =
+    let
+        content = 
+            case model of
+                RemoteData.Success users ->
+                    viewChallengesList users
+                RemoteData.Failure error ->
+                    text ("Error: " ++ Debug.toString error)
+                _ ->
+                    text "Loading..."
+                
+    in
     div [ class "content-main" ]
-        [ div []
-            [ h1 [] [ text "Generated Query" ]
-            , pre [] [ text (Document.serializeQuery query) ]
-            ]
-        , div []
-            [ h1 [] [ text "Response" ]
-            , text (Debug.toString model)
-            ]
+        [ content 
+        ]
+
+viewChallengesList : List ChallengeLookup -> Html msg 
+viewChallengesList challenges = 
+    div [ class "doors-container" ]
+        (List.indexedMap viewChallenge challenges)
+         
+
+viewChallenge : Int -> ChallengeLookup -> Html msg
+viewChallenge index challengeLookup = 
+    div [ class "door-style" ]
+        [ text (String.fromInt (index + 1)) 
         ]
