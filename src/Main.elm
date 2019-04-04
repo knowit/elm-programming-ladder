@@ -47,6 +47,7 @@ type Page
     | PageHome
     | PageAbout
     | PageChallenges Challenges.Model
+    | PageNone
 
 
 type Route
@@ -66,13 +67,8 @@ init _ url key =
         model =
             { key = key
             , url = url
-            , route = Challenges
-            , page = 
-                let
-                    ( pageModel, pageCmd ) = 
-                        Challenges.init
-                in
-                    PageChallenges pageModel
+            , route = Home
+            , page = PageHome
             }
     in
     ( model, Cmd.none )
@@ -109,7 +105,7 @@ loadCurrentPage ( model, cmd ) =
                     ( PageAbout, Cmd.none )
 
                 Challenge _ ->
-                    ( PageAbout, Cmd.none )
+                    ( PageNone, Cmd.none )
 
                 Challenges ->
                     let 
@@ -118,13 +114,13 @@ loadCurrentPage ( model, cmd ) =
                     in
                     ( PageChallenges pageModel, Cmd.map ChallengesMsg pageCmd )
                 Login ->
-                    ( PageAbout, Cmd.none )
+                    ( PageNone, Cmd.none )
 
                 Register ->
-                    ( PageAbout, Cmd.none )
+                    ( PageNone, Cmd.none )
 
                 NotFound ->
-                    ( PageHome, Cmd.none )
+                    ( PageNone, Cmd.none )
 
                 Stats ->
                     let
@@ -224,6 +220,9 @@ view model =
                 PageChallenges pageModel ->
                     Challenges.viewChallenges pageModel
                         |> Html.map ChallengesMsg
+                
+                PageNone ->
+                    notFoundView
     in
     { title = "Kodekalender"
     , body =
@@ -250,3 +249,10 @@ view model =
             ]
         ]
     }
+
+notFoundView : Html msg
+notFoundView =
+    div [ class "content-main"]
+        [ h1 [] [text "Not found"]
+        , text "¯\\_(ツ)_/¯" 
+        ]
