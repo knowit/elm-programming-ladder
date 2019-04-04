@@ -27,7 +27,7 @@ type alias Response =
 
 query : SelectionSet Response RootQuery
 query =
-    Query.allUsers (\optionals -> { optionals | first = Present 100 }) user
+    Query.allUsers (\optionals -> { optionals | first = Present 20 }) user
 
 
 
@@ -36,15 +36,13 @@ query =
 
 type alias UserLookup =
     { nickname : String
-    , createdAt : Graphcool.Scalar.DateTime
     }
 
 
 user : SelectionSet UserLookup Graphcool.Object.User
 user =
-    SelectionSet.map2 UserLookup
+    SelectionSet.map UserLookup
         User.nickname
-        User.createdAt
 
 
 makeRequest : Cmd Msg
@@ -92,18 +90,41 @@ update msg model =
 
 viewStats : Model -> Html msg
 viewStats model =
+    let
+        content = 
+            case model of
+                RemoteData.Success users ->
+                    viewUsers users
+                RemoteData.Failure error ->
+                    text ("Error: " ++ Debug.toString error)
+                _ ->
+                    text "Loading..."
+                
+    in
     div [ class "content-main" ]
-        [ div []
-            [ h1 [] [ text "Generated Query" ]
-            , pre [] [ text (Document.serializeQuery query) ]
-            ]
-        , div []
-            [ h1 [] [ text "Response" ]
-            , text (Debug.toString model)
-            ]
+        [ h1 [] [ text "Ledertavle" ]
+        ,  content 
         ]
 
+viewUsers: List UserLookup -> Html msg 
+viewUsers users =
+    div []
+        [ table [ class "stats-table" ]
+            ([ thead [ class "stats-table-head" ]
+                [ th [] [ text "Plass" ]
+                , th [] [ text "Bruker" ]
+                ]
+            ]
+                ++ List.map viewUser users
+            )
+        ]
 
+viewUser: UserLookup -> Html msg 
+viewUser userLookup =
+    tr []
+        [ th [] [ text "¯\\_(ツ)_/¯" ]
+        , th [] [ text userLookup.nickname ]
+        ]
 
 {-
    viewUserGroup: UserGroup -> Html msg
