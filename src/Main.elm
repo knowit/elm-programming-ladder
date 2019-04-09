@@ -2,8 +2,10 @@ module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
 import Asset
 import Browser
+import Browser.Events exposing (onResize)
 import Browser.Navigation as Nav
 import Debug
+import Element exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Page.About as About
@@ -17,7 +19,7 @@ import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, top)
 -- MAIN
 
 
-main : Program () Model Msg
+main : Program Flags Model Msg
 main =
     Browser.application
         { init = init
@@ -33,18 +35,26 @@ main =
 -- MODEL
 
 
+type alias Flags =
+    { width : Int
+    , height : Int
+    }
+
+
 type alias Model =
     { key : Nav.Key
     , url : Url.Url
     , route : Route
+    , device : Device -- fra Element, https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/Element#Device
     }
 
 
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init _ url key =
+init : Flags -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init flags url key =
     ( { key = key
       , url = url
       , route = urlToRoute url
+      , device = Element.classifyDevice flags
       }
     , Cmd.none
     )
@@ -86,6 +96,7 @@ urlToRoute url =
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
+    | DeviceClassified Device
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -107,14 +118,21 @@ update msg model =
             , Cmd.none
             )
 
+        DeviceClassified device ->
+            ( { model | device = device }
+            , Cmd.none
+            )
+
 
 
 -- SUBSCRIPTIONS
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
+subscriptions model =
+    onResize <|
+        \width height ->
+            DeviceClassified (Element.classifyDevice { width = width, height = height })
 
 
 
@@ -154,32 +172,38 @@ view model =
     , body =
         [ header
         , viewPage
-        , footer
         ]
     }
+
+
+
+--- Føler det burde funke nå, med å finne ut str. på skjem. Men nå vises ikke noe på skjermen selv om appen kjøres
 
 
 header : Html msg
 header =
     div [ class "navbar-top" ]
-        [ div [ class "navbar-link-image" ] [ a [ href "/home" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
-        , div [ class "navbar-tab nav-link" ] [ a [ href "/challenges" ] [ text "Luker" ] ]
-        , div [ class "navbar-tab nav-link" ] [ a [ href "/leaderboard" ] [ text "Ledertavle" ] ]
-        , div [ class "navbar-tab nav-link" ] [ a [ href "/about" ] [ text "Om" ] ]
-        , div [ class "navbar-tab nav-link-right" ] [ a [ href "/login" ] [ text "Logg Inn" ] ]
+        [ div [ class "navbar-link-image" ] [ a [ href "/home" ] [ Html.text "Hjem" ] ]
+        , div [ class "navbar-tab nav-link" ] [ a [ href "/challenges" ] [ Html.text "Luker" ] ]
+        , div [ class "navbar-tab nav-link" ] [ a [ href "/leaderboard" ] [ Html.text "Ledertavle" ] ]
+        , div [ class "navbar-tab nav-link" ] [ a [ href "/about" ] [ Html.text "Om" ] ]
+        , div [ class "navbar-tab nav-link-right" ] [ a [ href "/login" ] [ Html.text "Logg Inn" ] ]
         ]
 
 
-footer : Html msg
-footer =
-    div [ class "footer" ]
-        [ div [ class "footer-content" ]
-            [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
-            , ul [ class "footer-social-list" ]
-                [ li [ class "footer-social" ] [ a [ href "https://www.facebook.com/knowitsolution" ] [ i [ class "icon-social fab fa-facebook circle" ] [] ] ]
-                , li [ class "footer-social" ] [ a [ href "https://twitter.com/knowitnorge" ] [ i [ class "icon-social fab fa-twitter circle" ] [] ] ]
-                , li [ class "footer-social" ] [ a [ href "https://knowitlabs.no/" ] [ i [ class "icon-social fab fa-medium circle" ] [] ] ]
-                , li [ class "footer-social" ] [ a [ href "https://github.com/knowit/kodekalender" ] [ i [ class "icon-social fab fa-github circle" ] [] ] ]
-                ]
-            ]
-        ]
+
+{-
+   footer : Html msg
+   footer =
+       div [ class "footer" ]
+           [ div [ class "footer-content" ]
+               [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ Element.text "Knowit" ]
+               , ul [ class "footer-social-list" ]
+                   [ li [ class "footer-social" ] [ a [ href "https://www.facebook.com/knowitsolution" ] [ i [ class "icon-social fab fa-facebook circle" ] [] ] ]
+                   , li [ class "footer-social" ] [ a [ href "https://twitter.com/knowitnorge" ] [ i [ class "icon-social fab fa-twitter circle" ] [] ] ]
+                   , li [ class "footer-social" ] [ a [ href "https://knowitlabs.no/" ] [ i [ class "icon-social fab fa-medium circle" ] [] ] ]
+                   , li [ class "footer-social" ] [ a [ href "https://github.com/knowit/kodekalender" ] [ i [ class "icon-social fab fa-github circle" ] [] ] ]
+                   ]
+               ]
+           ]
+-}
