@@ -1,5 +1,11 @@
 module Page.About exposing (viewAbout)
 
+{- About page, static page, content is from the original programming ladder
+
+   This page (as well as the Home page) is static as it currently have no functionality except displaying text.
+   Examples of dynamic pages are Stats and Challenges
+-}
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
