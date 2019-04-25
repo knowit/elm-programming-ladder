@@ -16,29 +16,28 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import RemoteData exposing (RemoteData)
 
-
+{-
+    Collects and displays the leaderboard
+-}
 
 -- REQUEST
 
-
+{- The response is a list of users -}
 type alias Response =
     List UserLookup
 
-
+{- Creates the query -}
 query : SelectionSet Response RootQuery
 query =
-    Query.allUsers (\optionals -> { optionals | first = Present 20 }) user
+    Query.allUsers (\optionals -> { optionals | first = Present 20 }) user -- Change to {optionals | filter = Present ...(idk) } user
 
 
-
--- Change to {optionals | filter = Present ...(idk) } user
-
-
+{- The type the response is decoded to. Expand to collect more fields, some fields might need authentication. Called UserLookup to avoid confusion -}
 type alias UserLookup =
     { nickname : String
     }
 
-
+{- Expand to collect more fields, some fields might need authentication -}
 user : SelectionSet UserLookup Graphcool.Object.User
 user =
     SelectionSet.map UserLookup
@@ -55,7 +54,7 @@ makeRequest api =
 
 -- MODEL
 
-
+{- Stores the status of the resquest in a RemoteData type, which is either Success, Failure, NotAsked or Loading -}
 type alias Model =
     RemoteData (Graphql.Http.Error Response) Response
 
@@ -63,7 +62,7 @@ type alias Model =
 type alias Flags =
     ()
 
-
+{- Initializes the module by setting the model to Loading and making the request -}
 init : String -> ( Model, Cmd Msg )
 init api =
     ( RemoteData.Loading, makeRequest api )
@@ -76,7 +75,7 @@ init api =
 type Msg
     = GotResponse Model
 
-
+{- Collects the response from the GraphQL server -}
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -87,7 +86,7 @@ update msg model =
 
 -- VIEW
 
-
+{- Displays the results of the request -}
 viewStats : Model -> Html msg
 viewStats model =
     let
@@ -106,6 +105,7 @@ viewStats model =
         ,  content 
         ]
 
+{- Creates the users table -}
 viewUsers: List UserLookup -> Html msg 
 viewUsers users =
     div []
@@ -118,66 +118,35 @@ viewUsers users =
                 ++ List.map viewUser users
             )
         ]
-
+{- Creates each user row -}
 viewUser: UserLookup -> Html msg 
 viewUser userLookup =
     tr []
-        [ th [] [ text "¯\\_(ツ)_/¯" ]
+        [ th [] [ text "??" ]
         , th [] [ text userLookup.nickname ]
         ]
 
-{-
-   viewUserGroup: UserGroup -> Html msg
-   viewUserGroup userGroup =
-       tbody []
-           ([ tr
-               [ class "stats-table-group-head" ]
-               [ th [ colspan 2 ] [text (String.fromInt userGroup.score ++ " luker")] ]
-               ]
-           ++ List.map viewUser userGroup.users
-           )
-
-
-   viewUser: User -> Html msg
-   viewUser user =
-       tr []
-           [ th [] [ text (String.fromInt user.score ++ ".") ]
-           , th [] [ text user.name ]
-           ]
+{- 
+    Users need to be sorted into groups based on their score/position, 
+    after collecting relevant users from the graphQL server.
+    Below is a view setup for grouping users in the table 
 -}
 {-
-   -- USERS (Temp)
+viewUserGroup: UserGroup -> Html msg
+viewUserGroup userGroup =
+    tbody []
+        ([ tr
+            [ class "stats-table-group-head" ]
+            [ th [ colspan 2 ] [text (String.fromInt userGroup.score ++ " luker")] ]
+            ]
+        ++ List.map viewUser userGroup.users
+        )
 
-   type alias UserGroup =
-       { score: Int
-       , users: List User
-       }
 
-   tempGroups: List UserGroup
-   tempGroups =
-       [ UserGroup 24 users1
-       , UserGroup 23 users2
-       ]
-
-   type alias User =
-       { name: String
-       , score: Int
-       }
-
-   users1: List User
-   users1 =
-       [ User "User 1" 1
-       , User "User 2" 1
-       , User "User 3" 1
-       , User "User 4" 1
-       , User "User 5" 1
-       ]
-
-   users2: List User
-   users2 =
-       [ User "User 6" 2
-       , User "User 7" 2
-       , User "User 8" 2
-       , User "User 9" 2
-       ]
+viewUser: User -> Html msg
+viewUser user =
+    tr []
+        [ th [] [ text (String.fromInt user.position ++ ".") ]
+        , th [] [ text user.name ]
+        ]
 -}
