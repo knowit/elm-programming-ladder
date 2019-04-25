@@ -28,3 +28,14 @@ yarn start
 ```
 
 Open `http://localhost:8000`
+
+
+## Usefull links
+
+Simple Elm SPA examples:
+- https://github.com/sporto/elm-tutorial-app
+- https://github.com/malaire/elm-examples/blob/master/spa-basic/src/Main.elm
+
+Complex Elm SPA examples
+- https://github.com/rtfeldman/elm-spa-example
+- https://github.com/elm/package.elm-lang.org
