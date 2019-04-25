@@ -49,7 +49,7 @@ type Page
     | PageHome
     | PageAbout
     | PageChallenges Challenges.Model
-    | PageNone
+    | ErrorPage
 
 
 type Route
@@ -108,7 +108,7 @@ loadCurrentPage ( model, cmd ) =
                     ( PageAbout, Cmd.none )
 
                 Challenge _ ->
-                    ( PageNone, Cmd.none )
+                    ( ErrorPage, Cmd.none )
 
                 Challenges ->
                     let 
@@ -117,13 +117,13 @@ loadCurrentPage ( model, cmd ) =
                     in
                     ( PageChallenges pageModel, Cmd.map ChallengesMsg pageCmd )
                 Login ->
-                    ( PageNone, Cmd.none )
+                    ( ErrorPage, Cmd.none )
 
                 Register ->
-                    ( PageNone, Cmd.none )
+                    ( ErrorPage, Cmd.none )
 
                 NotFound ->
-                    ( PageNone, Cmd.none )
+                    ( ErrorPage, Cmd.none )
 
                 Stats ->
                     let
@@ -224,7 +224,7 @@ view model =
                     Challenges.viewChallenges pageModel
                         |> Html.map ChallengesMsg
                 
-                PageNone ->
+                ErrorPage ->
                     Problem.notFound
     in
     { title = "Kodekalender"
