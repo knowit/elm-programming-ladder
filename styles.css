@@ -59,7 +59,7 @@ body {
 
 .content-main {
   padding-top: 2rem;
-  width: 35%;
+  width: 45%;
   margin: 0 auto;
   height: 600px;
 }
@@ -126,4 +126,36 @@ body {
   background: rgb(0, 0, 0);
   color: rgb(250, 250, 250);
   text-align: center;
+}
+
+.doors-container {
+  height: 100%;
+  padding-bottom: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-gap: 20px;
+}
+.door-style {
+  border-radius: 100px;
+  box-shadow: 4px 5px 6px 0 rgba(0, 0, 0, 0.45);
+  color: white;
+  background: #5c7289;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 120px;
+  transition: all 0.2s ease;
+  font-size: 40px;
+  position: relative;
+  margin: auto;
+}
+
+.door-style:hover {
+  transform: scale(1.10);
+}
+
+.door-style:hover:after {
+  display: block;
+  opacity: 1;
 }

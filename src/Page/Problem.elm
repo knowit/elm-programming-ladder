@@ -12,11 +12,12 @@ import Html.Attributes exposing (..)
 -- NOT FOUND
 
 
-notFound : List (Html msg)
+notFound : Html msg
 notFound =
-  [ div [ style "font-size" "12em" ] [ text "404" ]
-  , div [ style "font-size" "3em" ] [ text "I cannot find this page!" ]
-  ]
+  div [class "content-main"] 
+    [ div [ style "font-size" "12em" ] [ text "404" ]
+    , div [ style "font-size" "3em" ] [ text "I cannot find this page!" ]
+    ]
 
 
 styles : List (Attribute msg)

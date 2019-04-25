@@ -9,12 +9,15 @@
     "url": "https://github.com/elenaand/elm-ladder-fagprosjekt"
   },
   "scripts": {
-    "start": "elm-live src/Main.elm --open -- --output=main.js"
+    "start": "elm-live src/Main.elm --open -- --output=main.js",
+    "api": "elm-graphql https://api.graph.cool/simple/v1/cjtsh660h0fxg0189of111ui9 --base Graphcool"
   },
   "dependencies": {
+    "elm-format": "^0.8.1",
     "font-awesome": "4"
   },
   "devDependencies": {
+    "@dillonkearns/elm-graphql": "^3.2.0",
     "elm-live": "^3.0.0"
   }
 }
