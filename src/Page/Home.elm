@@ -1,5 +1,11 @@
 module Page.Home exposing (viewHome)
 
+{- Home page, static page showing when entering the programming ladder
+
+   This page is static as it currently have no functionality except displaying text.
+   Examples of dynamic pages are Stats and Challenges
+-}
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
