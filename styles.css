@@ -1,0 +1,161 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    
+  }
+
+.navbar-top {
+  padding-top: 1rem;
+  width: 35%;
+  margin: 0 auto;
+}
+
+.nav-link-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.nav-link {
+  float: left;
+}
+
+.nav-link-image {
+  float: left;
+}
+
+.nav-link-right {
+  float: right;
+}
+
+.nav-link a {
+  display: block;
+  color: gray;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+}
+.nav-link-right a {
+  display: block;
+  color: gray;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+}
+
+.nav-link a:hover {
+  color: #111;
+}
+
+.nav-link-right a:hover {
+  color: #111;
+}
+
+.content-main {
+  padding-top: 2rem;
+  width: 45%;
+  margin: 0 auto;
+  height: 600px;
+}
+
+.footer {
+  border-top: 1px solid;
+  border-top-color: rgb(241, 241, 241);
+}
+
+.footer-content {
+  margin-top: 1rem;
+  width: 35%;
+  margin: 0 auto;
+  border-bottom: 1px solid;
+  border-bottom-color: rgb(241, 241, 241);
+}
+
+.footer-logo {
+  padding-top: 50px;
+  padding-left: 40%;
+  text-align: center;
+}
+
+.footer-social-list {
+  padding-top: 1rem;
+  text-align: center;
+  list-style-type: none;
+  margin-left: 6rem;
+  overflow: hidden;
+}
+
+.footer-social {
+  float: left;
+}
+
+.footer-social a {
+  display: block;
+  color: gray;
+  text-align: center;
+  margin-left: 5rem;
+  text-decoration: none;
+}
+
+.footer-social a i {
+  font-size: 3em;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.stats-table-head {
+  background: rgb(0, 0, 0);
+  color: rgb(250, 250, 250);
+}
+
+.stats-table-position-column {
+  width: 15%;
+}
+
+.stats-table-group-head {
+  background: rgb(0, 0, 0);
+  color: rgb(250, 250, 250);
+  text-align: center;
+}
+
+.doors-container {
+  height: 100%;
+  padding-bottom: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-gap: 20px;
+}
+.door-style {
+  border-radius: 100px;
+  box-shadow: 4px 5px 6px 0 rgba(0, 0, 0, 0.45);
+  color: white;
+  background: #5c7289;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 120px;
+  transition: all 0.2s ease;
+  font-size: 40px;
+  position: relative;
+  margin: auto;
+}
+
+.door-style:hover {
+  transform: scale(1.10);
+}
+
+.door-style:hover:after {
+  display: block;
+  opacity: 1;
+}
