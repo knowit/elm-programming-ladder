@@ -43,7 +43,7 @@ type alias Model =
     , api : String
     }
 
-
+{- Expand when adding more pages -}
 type Page
     = PageStats Stats.Model
     | PageHome
@@ -62,7 +62,7 @@ type Route
     | Stats
     | NotFound
 
-
+{- Initializes the program and loads the current page -}
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     let
@@ -95,7 +95,11 @@ urlToRoute : Url.Url -> Route
 urlToRoute url =
     Maybe.withDefault NotFound (Parser.parse parser url)
 
-
+{- 
+    Loads the current page, and initializes models where needed. 
+    Unsupported routes currently leads to an ErrorPage, 
+    which needs to be updated when making these pages
+-}
 loadCurrentPage : ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
 loadCurrentPage ( model, cmd ) =
     let
@@ -138,14 +142,14 @@ loadCurrentPage ( model, cmd ) =
 
 -- UPDATE
 
-
+{- Needs to be expanded when making new dynamic pages with their own Msg -}
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | StatsMsg Stats.Msg
     | ChallengesMsg Challenges.Msg
 
-
+{- Needs to be expanded when making new dynamic pages with their own Msg and Update -}
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
@@ -204,7 +208,7 @@ subscriptions _ =
 
 -- VIEW
 
-
+{- Displays the current page. Needs to be expanded when creating more pages -}
 view : Model -> Browser.Document Msg
 view model =
     let
@@ -229,17 +233,27 @@ view model =
     in
     { title = "Kodekalender"
     , body =
-        [ div [ class "navbar-top" ]
-            [ ul [ class "nav-link-list" ]
-                [ li [ class "nav-link-image" ] [ a [ href "/" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
-                , li [ class "nav-link" ] [ a [ href "/challenges" ] [ text "Luker" ] ]
-                , li [ class "nav-link" ] [ a [ href "/leaderboard" ] [ text "Ledertavle" ] ]
-                , li [ class "nav-link" ] [ a [ href "/about" ] [ text "Om" ] ]
-                , li [ class "nav-link-right" ] [ a [ href "/login" ] [ text "Logg Inn" ] ]
-                ]
-            ]
+        [ navbar
         , viewPage
-        , div [ class "footer" ]
+        , footer
+        ]
+    }
+
+navbar : Html msg 
+navbar = 
+    div [ class "navbar-top" ]
+        [ ul [ class "nav-link-list" ]
+            [ li [ class "nav-link-image" ] [ a [ href "/" ] [ img [ Asset.src Asset.icon, width 50, height 50 ] [ text "Hjem" ] ] ]
+            , li [ class "nav-link" ] [ a [ href "/challenges" ] [ text "Luker" ] ]
+            , li [ class "nav-link" ] [ a [ href "/leaderboard" ] [ text "Ledertavle" ] ]
+            , li [ class "nav-link" ] [ a [ href "/about" ] [ text "Om" ] ]
+            , li [ class "nav-link-right" ] [ a [ href "/login" ] [ text "Logg Inn" ] ]
+            ]
+        ]
+
+footer : Html msg 
+footer = 
+    div [ class "footer" ]
             [ div [ class "footer-content" ]
                 [ img [ class "footer-logo", Asset.src Asset.logo, width 130, height 30 ] [ text "Knowit" ]
                 , ul [ class "footer-social-list" ]
@@ -250,5 +264,3 @@ view model =
                     ]
                 ]
             ]
-        ]
-    }

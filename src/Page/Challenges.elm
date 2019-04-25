@@ -17,26 +17,28 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import RemoteData exposing (RemoteData)
 
-
+{-
+    Collects and displays the challenges
+-}
 
 -- REQUEST
 
-
+{- The response is a list of challenges -}
 type alias Response =
     List ChallengeLookup
 
-
+{- Creates the query -}
 query : SelectionSet Response RootQuery
 query =
-    Query.allChallenges (\optionals -> { optionals | orderBy = Present ChallengeOrderBy.ActiveFrom_ASC }) challenge
+    Query.allChallenges (\optionals -> { optionals | orderBy = Present ChallengeOrderBy.ActiveFrom_ASC }) challenge -- Change to take in filter as well, and be based on which user is logged in
 
-
+{- The type the response is decoded to. Expand to collect more fields. Some might need authentication. Called ChallengeLookup to avoid confusion -}
 type alias ChallengeLookup =
     { id : Graphcool.ScalarCodecs.Id
     , activeFrom : Maybe Graphcool.ScalarCodecs.DateTime
     }
 
-
+{- Expand to collect more fields. Some might need authentication. -}
 challenge : SelectionSet ChallengeLookup Graphcool.Object.Challenge
 challenge =
     SelectionSet.map2 ChallengeLookup
@@ -54,7 +56,7 @@ makeRequest api =
 
 -- MODEL
 
-
+{- Stores the status of the resquest in a RemoteData type, which is either Success, Failure, NotAsked or Loading -}
 type alias Model =
     RemoteData (Graphql.Http.Error Response) Response
 
@@ -62,7 +64,7 @@ type alias Model =
 type alias Flags =
     ()
 
-
+{- Initializes the module by setting the model to Loading and making the request -}
 init : String -> ( Model, Cmd Msg )
 init api =
     ( RemoteData.Loading, makeRequest api )
@@ -75,7 +77,7 @@ init api =
 type Msg
     = GotResponse Model
 
-
+{- Collects the response from the GraphQL server -}
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -86,7 +88,7 @@ update msg model =
 
 -- VIEW
 
-
+{- Displays the results of the request -}
 viewChallenges : Model -> Html msg
 viewChallenges model =
     let
