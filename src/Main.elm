@@ -10,6 +10,7 @@ import Page.About as About
 import Page.Home as Home
 import Page.Stats as Stats
 import Page.Challenges as Challenges
+import Page.Problem as Problem
 import Url
 import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, top)
 
@@ -222,7 +223,7 @@ view model =
                         |> Html.map ChallengesMsg
                 
                 PageNone ->
-                    notFoundView
+                    Problem.notFound
     in
     { title = "Kodekalender"
     , body =
@@ -249,10 +250,3 @@ view model =
             ]
         ]
     }
-
-notFoundView : Html msg
-notFoundView =
-    div [ class "content-main"]
-        [ h1 [] [text "Not found"]
-        , text "¯\\_(ツ)_/¯" 
-        ]
