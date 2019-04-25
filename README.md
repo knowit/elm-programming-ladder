@@ -61,3 +61,7 @@ Simple Elm SPA examples:
 Complex Elm SPA examples
 - https://github.com/rtfeldman/elm-spa-example
 - https://github.com/elm/package.elm-lang.org
+
+GrapQL and dillonkearns/elm-graphql:
+- https://github.com/dillonkearns/elm-graphql
+- https://medium.com/@zenitram.oiram/graphqelm-optional-arguments-in-a-language-without-optional-arguments-d8074ca3cf74
