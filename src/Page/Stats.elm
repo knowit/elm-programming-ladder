@@ -45,10 +45,10 @@ user =
         User.nickname
 
 
-makeRequest : Cmd Msg
-makeRequest =
+makeRequest : String -> Cmd Msg
+makeRequest api =
     query
-        |> Graphql.Http.queryRequest "https://api.graph.cool/simple/v1/cjtsh660h0fxg0189of111ui9"
+        |> Graphql.Http.queryRequest api
         |> Graphql.Http.send (RemoteData.fromResult >> GotResponse)
 
 
@@ -64,9 +64,9 @@ type alias Flags =
     ()
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( RemoteData.Loading, makeRequest )
+init : String -> ( Model, Cmd Msg )
+init api =
+    ( RemoteData.Loading, makeRequest api )
 
 
 

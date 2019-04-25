@@ -40,6 +40,7 @@ type alias Model =
     , url : Url.Url
     , route : Route
     , page : Page
+    , api : String
     }
 
 
@@ -70,6 +71,7 @@ init _ url key =
             , url = url
             , route = Home
             , page = PageHome
+            , api = "" -- Enter GraphQL api url here !!
             }
     in
     ( model, Cmd.none )
@@ -111,7 +113,7 @@ loadCurrentPage ( model, cmd ) =
                 Challenges ->
                     let 
                         ( pageModel, pageCmd ) =
-                            Challenges.init
+                            Challenges.init model.api
                     in
                     ( PageChallenges pageModel, Cmd.map ChallengesMsg pageCmd )
                 Login ->
@@ -126,7 +128,7 @@ loadCurrentPage ( model, cmd ) =
                 Stats ->
                     let
                         ( pageModel, pageCmd ) =
-                            Stats.init
+                            Stats.init model.api
                     in
                     ( PageStats pageModel, Cmd.map StatsMsg pageCmd )
     in
